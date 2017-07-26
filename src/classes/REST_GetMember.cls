@@ -14,16 +14,19 @@ global with sharing class REST_GetMember {
         RestResponse response = RestContext.response;
         response.addHeader('Acept', 'application/json');
         response.addHeader('Content-Type', 'application/json');
-        String memberId = RestContext.request.params.get('memberId');
+        Id memberId = RestContext.request.params.get('memberId');
         String pointTypeName = 'Point';
-        String balanceFieldApiName;
-        String memberRetrieveQuery;
+        //String balanceFieldApiName;
+        //String memberRetrieveQuery;
         FieloPLT__Member__c queriedMember;
         
         try{
-            Id memberProgram = [SELECT FieloPLT__Program__c FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1].get(0).FieloPLT__Program__c;
-            balanceFieldApiName = [SELECT FieloPLT__PointType__r.FieloPLT__MemberBalanceField__c FROM FieloPLT__ProgramPointType__c WHERE FieloPLT__PointType__r.Name = :pointTypeName AND FieloPLT__Program__c = :memberProgram].get(0).FieloPLT__PointType__r.FieloPLT__MemberBalanceField__c;
-            memberRetrieveQuery = 'SELECT Name, FieloPLT__Email__c, ' + balanceFieldApiName + ' FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1';
+            queriedMember = [SELECT FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1];
+
+            //, FieloPLT__Program__r.GRSMemberFieldsMapping__c
+
+            //balanceFieldApiName = [SELECT FieloPLT__PointType__r.FieloPLT__MemberBalanceField__c FROM FieloPLT__ProgramPointType__c WHERE FieloPLT__PointType__r.Name = :pointTypeName AND FieloPLT__Program__c = :memberProgram].get(0).FieloPLT__PointType__r.FieloPLT__MemberBalanceField__c;
+            String memberRetrieveQuery = 'SELECT Name, FieloPLT__Email__c, ' + queriedMember.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c + ' FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1';
             queriedMember = Database.query(memberRetrieveQuery);
         } catch(Exception e){
             response.statusCode = 404;
