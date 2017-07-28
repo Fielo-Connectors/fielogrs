@@ -13,13 +13,10 @@ global with sharing class RESTOrder {
         public String orderToken;
         public String orderNumber;
  
-        public ResponseWrapper(String id, String type, String orderToken){
+        public ResponseWrapper(String id, String type, String orderToken, String orderNumber){
             this.id = id;
             this.type = type;
             this.orderToken = orderToken;
-        }
-
-        public void setOrderNumber(String orderNumber){
             this.orderNumber = orderNumber;
         }
     }
@@ -40,15 +37,13 @@ global with sharing class RESTOrder {
         
         Savepoint sp = Database.setSavepoint();
         try{
-            Map<String,Object> requestMap = (Map<String,Object>)JSON.deserializeUntyped(RestContext.request.requestBody.toString());
-            ResponseWrapper respWrapper = new ResponseWrapper((String)requestMap.get('id'), (String)requestMap.get('type'), (String)requestMap.get('orderToken'));
+            Map<String,Object> requestMap = (Map<String,Object>)JSON.deserializeUntyped(RestContext.request.requestBody.toString());            
             
             if(requestMap.containsKey('order')){
                 Map<String,Object> orderMap = (Map<String,Object>)requestMap.get('order');
 
                 String memberId = (String)orderMap.get('employeeId');
                 String orderNumber = (String)orderMap.get('orderNumber');
-                respWrapper.setOrderNumber(orderNumber);
 
                 FieloPLT__Member__c member = [SELECT Id, FieloPLT__Program__r.GRSAccount__c, FieloPLT__Program__r.GRSPointType__r.FieloPLT__RedemptionItemBalanceField__c, FieloPLT__Program__r.GRSOrderFieldset__c, FieloPLT__Program__r.GRSOrderItemFieldset__c FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1];
 
@@ -108,9 +103,9 @@ global with sharing class RESTOrder {
                     }
                 }
 
-                insert providerOrder;
                 //call plt api
-                //FieloPLT.RedemptionService.createProviderOrder(member.Id, providerOrder, redItems);
+                FieloPLT__ProviderOrder__c returnedProviderOrder = FieloPLT.RedemptionService.createProviderOrder(member.Id, providerOrder, redItems);
+                ResponseWrapper respWrapper = new ResponseWrapper((String)requestMap.get('id'), (String)requestMap.get('type'), (String)requestMap.get('orderToken'), returnedProviderOrder.GRSOrderNumber__c);
 
                 /*if( MemberService.isMemberBlocked(memberId) == true ){
                     response.message = Label.ErrorFieloAccountBlocked;
