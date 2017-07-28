@@ -197,6 +197,33 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>GRSMemberFieldset__c</fullName>
+        <externalId>false</externalId>
+        <label>GRS Member Fieldset</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>GRSOrderFieldset__c</fullName>
+        <externalId>false</externalId>
+        <label>GRS Order Fieldset</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>GRSOrderItemFieldset__c</fullName>
+        <externalId>false</externalId>
+        <label>GRS Order Item Fieldset</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>GRSPointType__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
