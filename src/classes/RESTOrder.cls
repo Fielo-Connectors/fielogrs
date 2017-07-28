@@ -4,9 +4,8 @@
 * Created Date: 18/07/2017
 * Description: 
 ********************************************************************/
-
-@RestResource(urlMapping = '/orderService/*')
-global with sharing class REST_OrderService {
+@RestResource(urlMapping = '/v1/orders/*')
+global with sharing class RESTOrder {
     
     private static String CREATE = 'redeem';
     private static String CANCEL = 'cancel';

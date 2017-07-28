@@ -1,12 +1,12 @@
-/********************************************************************
+	/********************************************************************
 * Company: Fielo
 * Developer: Juan Pablo Catena
 * Created Date: 18/07/2017
 * Description: 
 ********************************************************************/
 
-@RestResource(urlMapping='/member/*')
-global with sharing class REST_GetMember {
+@RestResource(urlMapping='/V1/members/*')
+global with sharing class RESTMember {
 	
     @HttpGet
     global static void doActions(){
@@ -15,7 +15,7 @@ global with sharing class REST_GetMember {
         response.addHeader('Acept', 'application/json');
         response.addHeader('Content-Type', 'application/json');
         Id memberId = RestContext.request.params.get('memberId');
-        String pointTypeName = 'Point';
+        //String pointTypeName = 'Point';
         //String balanceFieldApiName;
         //String memberRetrieveQuery;
         FieloPLT__Member__c queriedMember;
@@ -47,6 +47,8 @@ global with sharing class REST_GetMember {
     }
     
     global class WrapResponse{
+        public Map<String,Object> fieldsMap {get; set;}
+
         public String firstName {get; set;}
         public String lastName {get; set;}
         public String email {get; set;}
