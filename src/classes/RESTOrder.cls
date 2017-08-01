@@ -107,12 +107,6 @@ global with sharing class RESTOrder {
                 FieloPLT__ProviderOrder__c returnedProviderOrder = FieloPLT.RedemptionService.createProviderOrder(member.Id, providerOrder, redItems);
                 ResponseWrapper respWrapper = new ResponseWrapper((String)requestMap.get('id'), (String)requestMap.get('type'), (String)requestMap.get('orderToken'), returnedProviderOrder.GRSOrderNumber__c);
 
-                /*if( MemberService.isMemberBlocked(memberId) == true ){
-                    response.message = Label.ErrorFieloAccountBlocked;
-                    response.errorcode = 'FIELO_ACCOUNT_BLOCKED';
-                    resp.statusCode = 404;
-                    resp.responseBody = Blob.valueOf( JSON.serialize(new List<RestAPIResponse>{response}) );
-                }*/
                 response.statusCode = 201;
                 response.responseBody = Blob.valueOf( JSON.serialize(respWrapper) );
             }
