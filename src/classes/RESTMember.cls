@@ -60,8 +60,8 @@ global with sharing class RESTMember {
             if(memberFieldset != null){
             	//loop de json fieldset
             	for(MemberField mf : memberFieldset){
-            		//cargo los campos en el mapa
-            		returnMap.put(mf.grsFieldName, queriedMember.get(mf.sfFieldName));
+                    //cargo los campos en el mapa
+            		returnMap.put(mf.grsFieldName, getFieldValue(queriedMember, mf.sfFieldName));
 	            }
             }
 
@@ -74,5 +74,19 @@ global with sharing class RESTMember {
             response.responseBody = Blob.valueOf(JSON.serialize(errorResponse));
             return;
         }
+    }
+
+    private static Object getFieldValue(FieloPLT__Member__c member, String sfFieldName){
+        //split para campos a segundo o tercer nivel
+        String[] fieldNameSplited = sfFieldName.split('\\.');
+        SObject relationObject = member;
+        Integer index = 0;
+        for(; index < fieldNameSplited.size() - 1; index++){
+            relationObject = relationObject.getSObject(fieldNameSplited[index].removeEnd('Id'));
+            if(relationObject == null)
+                return null;
+        }
+
+        return relationObject.get(fieldNameSplited[index]);
     }
 }
