@@ -89,7 +89,9 @@ global with sharing class RESTOrder {
                     Map<String,Object> orderItemsMap = (Map<String,Object>)orderMap.get('orderItems');
                     for(Object orderItem : orderItemsMap.values()){
                         Map<String,Object> orderItemMap = (Map<String,Object>)orderItem;
-                        FieloPLT__RedemptionItem__c redItem = new FieloPLT__RedemptionItem__c(FieloPLT__Quantity__c = Decimal.valueOf((String)orderItemMap.get('quantity')));
+                        
+                        //required fields
+                        FieloPLT__RedemptionItem__c redItem = new FieloPLT__RedemptionItem__c(FieloPLT__Quantity__c = Decimal.valueOf((String)orderItemMap.get('quantity')), GRSOrderId__c = (String)orderItemMap.get('orderId'));
                         redItem.put(member.FieloPLT__Program__r.GRSPointType__r.FieloPLT__RedemptionItemBalanceField__c, orderItemMap.get('pointCost'));
 
                         //fieldset order item
