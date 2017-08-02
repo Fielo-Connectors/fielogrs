@@ -39,7 +39,16 @@ global with sharing class RESTOrderUpdate {
             if(actionType == 'cancel'){
                 String orderId = (String)requestMap.get('orderId');
 
-                FieloPLT__RedemptionItem__c redemptionItem = [SELECT Id FROM FieloPLT__RedemptionItem__c WHERE GRSOrderId__c =: orderId];
+                FieloPLT__RedemptionItem__c redemptionItem;
+                try{
+                    redemptionItem = [SELECT Id FROM FieloPLT__RedemptionItem__c WHERE GRSOrderId__c =: orderId];
+                }catch(Exception e){
+                    response.statusCode = 404;
+                    errorResponse.errorcode = 'BUSINESS_ERROR';
+                    errorResponse.message = 'Order item not found.';
+                    response.responseBody = Blob.valueOf( JSON.serialize(new List<RestAPIResponse>{errorResponse}) );
+                    return ;
+                }
                 FieloPLT.RedemptionItemService.revertRedemptionItems(new List<Id>{redemptionItem.Id});
                 
                 ResponseWrapper respWrapper = new ResponseWrapper((String)requestMap.get('id'), (String)requestMap.get('type'), (String)requestMap.get('orderToken'), orderId);
