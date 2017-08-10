@@ -22,10 +22,7 @@ public with sharing class Programs {
 		List<FieloPLT__Program__c> programsToAnalize = new List<FieloPLT__Program__c>();
 		Boolean queryPointTypes = false;
 		for(FieloPLT__Program__c program : programs){
-			if((program.GRSMemberFieldset__c != null && program.GRSMemberFieldset__c != existingPrograms.get(program.Id).GRSMemberFieldset__c)
-				|| (program.GRSOrderFieldset__c != null && program.GRSOrderFieldset__c != existingPrograms.get(program.Id).GRSOrderFieldset__c)
-				|| (program.GRSOrderItemFieldset__c != null && program.GRSOrderItemFieldset__c != existingPrograms.get(program.Id).GRSOrderItemFieldset__c)){
-				
+			if((program.GRSMemberFieldset__c != null && program.GRSMemberFieldset__c != existingPrograms.get(program.Id).GRSMemberFieldset__c) || (program.GRSOrderFieldset__c != null && program.GRSOrderFieldset__c != existingPrograms.get(program.Id).GRSOrderFieldset__c) || (program.GRSOrderItemFieldset__c != null && program.GRSOrderItemFieldset__c != existingPrograms.get(program.Id).GRSOrderItemFieldset__c)){				
 				programsToAnalize.add(program);
 				if(program.GRSOrderItemFieldset__c != null && program.GRSOrderItemFieldset__c != existingPrograms.get(program.Id).GRSOrderItemFieldset__c){
 
