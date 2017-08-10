@@ -21,11 +21,6 @@ global with sharing class RESTOrder {
         }
     }
 
-    private class FieldWrapper{
-        public String grsFieldName;
-        public String sfFieldName;
-    }
-
     @HttpPost
     global static void createOrder(){
         String requestUri = RestContext.request.requestUri;

@@ -8,5 +8,9 @@
 		<members>FieloPLT__Program__c</members>
 		<name>CustomObject</name>
 	</types>
+	<types>
+		<members>Programs</members>
+		<name>ApexTrigger</name>
+	</types>
 	<version>36.0</version>
 </Package>

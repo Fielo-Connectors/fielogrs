@@ -8,11 +8,6 @@
 @RestResource(urlMapping='/V1/members/*')
 global with sharing class RESTMember {
 	
-	private class MemberField{
-		public String grsFieldName;
-		public String sfFieldName;
-	}
-
     @HttpGet
     global static void getMember(){
         String requestUri = RestContext.request.requestUri;
@@ -38,12 +33,12 @@ global with sharing class RESTMember {
             String pointBalanceField = queriedMember.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c;
 
             Set<String> fieldsetToQuery = new Set<String>{pointBalanceField};
-            List<MemberField> memberFieldset;
+            List<FieldWrapper> memberFieldset;
             if(String.isNotBlank(queriedMember.FieloPLT__Program__r.GRSMemberFieldset__c)){
 	            //parse de json con fieldset casteado a wrapper interno
-	            memberFieldset = (List<MemberField>)JSON.deserializeStrict(queriedMember.FieloPLT__Program__r.GRSMemberFieldset__c, List<MemberField>.class);
+	            memberFieldset = (List<FieldWrapper>)JSON.deserializeStrict(queriedMember.FieloPLT__Program__r.GRSMemberFieldset__c, List<FieldWrapper>.class);
             	
-	            for(MemberField mf : memberFieldset){
+	            for(FieldWrapper mf : memberFieldset){
 	            	fieldsetToQuery.add(mf.sfFieldName);
 	            }
             }
@@ -59,7 +54,7 @@ global with sharing class RESTMember {
 
             if(memberFieldset != null){
             	//loop de json fieldset
-            	for(MemberField mf : memberFieldset){
+            	for(FieldWrapper mf : memberFieldset){
                     //cargo los campos en el mapa
             		returnMap.put(mf.grsFieldName, getFieldValue(queriedMember, mf.sfFieldName));
 	            }
