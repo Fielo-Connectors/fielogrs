@@ -49,6 +49,15 @@ private with sharing class TestPrograms {
 
 		program.GRSMemberFieldset__c = '[{"grsFieldName":"firstName", "sfFieldName":"FieloPLT__Contact__r.AccountId.WrongField__c" }]';
 		program.GRSOrderFieldset__c = '[{"grsFieldName":"shipAddress1","sfFieldName":"FieloPLT__Address__c"}]';
+		program.GRSOrderItemFieldset__c = '[{"grsFieldName":"name2","sfFieldName":"FieloPLT__UnitCost__c"}]';
+		try{insert program;}catch(Exception e){}
+	}
+
+	@isTest static void testProgramInsertWrongFields2(){
+
+		FieloPLT__Program__c program = new FieloPLT__Program__c();
+
+		program.GRSMemberFieldset__c = '[{"grsFieldName":"firstName", "sfFieldName":"FieloPLT__Contact2__r.AccountId" }]';
 		try{insert program;}catch(Exception e){}
 	}
 
