@@ -49,13 +49,31 @@ public class RESTOrderTest{
         
         RESTOrder.createOrder();
         
-        testProgram.GRSPointType__c = pointTypeId;
         testProgram.GRSAccount__c = testAccount.Id;
-        update testProgram;
+        update testProgram;        
+        
+        RESTOrder.createOrder();
+        
+        testProgram.GRSPointType__c = pointTypeId;
+        update testProgram;      
 
         RESTOrder.createOrder();
+        
+        //Adjust transaction created to grant points
+		FieloPLT__Transaction__c trans = new FieloPLT__Transaction__c(FieloPLT__Member__c = testMember.Id, FieloPLT__Points__c = 500);
+		trans.FieloPLT__SkipEngine__c = true;
+		trans.FieloPLT__IsProcessed__c = true;
 
-		Test.stopTest();
+		FieloPLT.SObjectService.enableAdminPermission(true);
+		insert trans;
+
+        testProgram.GRSOrderFieldset__c = '[{"grsFieldName":"shipAddress1","sfFieldName":"FieloPLT__Status__c"}]';
+		testProgram.GRSOrderItemFieldset__c = '[{"grsFieldName":"lineItemId","sfFieldName":"FieloPLT__UnitCost__c"}]';
+        update testProgram;      
+        
+        RESTOrder.createOrder();
+        
+        Test.stopTest();
 
     }
 }

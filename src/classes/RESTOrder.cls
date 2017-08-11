@@ -113,27 +113,6 @@ global with sharing class RESTOrder {
             errorResponse.errorcode = 'BUSINESS_ERROR';
             errorResponse.message = e.getMessage();
             response.responseBody = Blob.valueOf( JSON.serialize(new List<RestAPIResponse>{errorResponse}) );
-        }catch(DMlException e){
-            Database.rollback( sp );
-            String message = e.getDMLMessage(0);
-            system.debug(e.getDmlType(0));
-            if( StatusCode.CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY == e.getDmlType(0) || message.contains('DomainException') ){
-                response.statusCode = 403;
-                errorResponse.errorcode = 'DOMAIN_EXCEPTION';
-                if( message.contains('Permission to') && message.contains(' denied') ){
-                    message = message.substring(message.indexOf('Permission'), message.indexOf(' denied') + 8);
-                }
-                errorResponse.message = message;
-            }else if(StatusCode.REQUIRED_FIELD_MISSING == e.getDmlType(0)){ // || StatusCode.FIELD_CUSTOM_VALIDATION_EXCEPTION == e.getDmlType(0))
-                response.statusCode = 400;
-                errorResponse.errorcode = 'REQUIRED_FIELD_MISSING';
-                errorResponse.message = message;
-            }else{
-                response.statusCode = 400;
-                errorResponse.errorcode = 'BUSINESS_ERROR';
-                errorResponse.message = e.getDMLMessage(0);
-            }
-            response.responseBody = Blob.valueOf( JSON.serialize(new List<RestAPIResponse>{errorResponse}) );
         }
     }
 }
