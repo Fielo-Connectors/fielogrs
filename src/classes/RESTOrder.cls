@@ -59,7 +59,7 @@ global with sharing class RESTOrder {
                 }
 
                 //set required fields
-                FieloPLT__ProviderOrder__c providerOrder = new FieloPLT__ProviderOrder__c(FieloPLT__Account__c = member.FieloPLT__Program__r.GRSAccount__c, GRSOrderNumber__c = orderNumber);
+                FieloPLT__ProviderOrder__c providerOrder = new FieloPLT__ProviderOrder__c(FieloPLT__Account__c = member.FieloPLT__Program__r.GRSAccount__c, GRSOrderNumber__c = orderNumber, FieloPLT__Status__c = 'Closed');
 
                 //fieldset order
                 if(String.isNotBlank(member.FieloPLT__Program__r.GRSOrderFieldset__c)){
