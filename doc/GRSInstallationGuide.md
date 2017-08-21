@@ -49,4 +49,13 @@ A sample of the JSON format is as follows:
 - GRS Point Type (FieloGRS__GRSPointType__c) - The point type to be consumed by the checkout. Already configured on item 3.  
 
 - GRS Account (FieloGRS__GRSAccount__c) - The reward provider. In this case, GRS.  
-![image](https://user-images.githubusercontent.com/26011197/29519003-0d214ab6-8652-11e7-880f-5f1e71b25c96.png)
+![image](https://user-images.githubusercontent.com/26011197/29519003-0d214ab6-8652-11e7-880f-5f1e71b25c96.png)  
+
+- GRS Order Fieldset (FieloGRS__GRSOrderFieldset__c) - This field is filled with a JSON format containing all the optional fields when creating the order request. The optional fields are the ones created on step 4.  
+
+- GRS Order Item Fieldset (FieloGRS__GRSOrderItemFieldset__c) - This field is filled with a JSON format containing all the optional fields when creating the order request. The optional fields are the ones created on step 4.  
+
+## 6. Members Profile Configuration
+   1. In the profile for the member user in the front end, give access to the following apex classes:
+      - FieloGRS.RESTMember  
+      - FieloGRS.RESTOrder
