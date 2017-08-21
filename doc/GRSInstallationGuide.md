@@ -23,3 +23,19 @@ https:/{!instance}.salesforce.com/packaging/installPackage.apexp?p0=04tf40000018
 ![image](https://user-images.githubusercontent.com/26011197/29518856-7831c1a6-8651-11e7-8f0a-d2209c09da55.png)
 
 A sample of the JSON format is as follows:
+```
+[
+	{
+		"grsFieldName":"email",
+		"sfFieldName":"FieloPLT__Email__c"
+	},
+	{
+		"grsFieldName":"firstName",
+		"sfFieldName":"FieloPLT__Contact__r.FirstName"
+	},
+	{
+		"grsFieldName":"lastName",
+		"sfFieldName":"FieloPLT__Contact__r.LastName"
+	}
+]
+```
