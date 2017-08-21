@@ -3,7 +3,7 @@
 ## 1. Introduction
 
 This document  is designed to assist Global Rewards Solutions installing and configuring GRS Partner APIs.
-The integration with Fielo partner will be implemented by using 3 (three) Partner APIs:
+The integration with Fielo partner will be implemented by using 3 (three) Partner APIs:  
    - getMember (GET)
    - createOrder (POST)
    - cancelOrder (POST)
@@ -39,3 +39,6 @@ A sample of the JSON format is as follows:
 	}
 ]
 ```
+## 4. Objects Configuration
+**If necessary, create custom fields on Provider Order and Redemption Item objects in order to be able to map optional fields for Order and OrderItem.**  
+![image](https://user-images.githubusercontent.com/26011197/29518924-bac6f95a-8651-11e7-9ffe-1eee35b925aa.png)
