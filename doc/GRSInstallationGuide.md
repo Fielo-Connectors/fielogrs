@@ -42,3 +42,11 @@ A sample of the JSON format is as follows:
 ## 4. Objects Configuration
 **If necessary, create custom fields on Provider Order and Redemption Item objects in order to be able to map optional fields for Order and OrderItem.**  
 ![image](https://user-images.githubusercontent.com/26011197/29518924-bac6f95a-8651-11e7-9ffe-1eee35b925aa.png)
+
+## 5. Program Configuration (required for Order Details POST)
+**In Program object, make the following configuration:**  
+
+- GRS Point Type (FieloGRS__GRSPointType__c) - The point type to be consumed by the checkout. Already configured on item 3.  
+
+- GRS Account (FieloGRS__GRSAccount__c) - The reward provider. In this case, GRS.  
+![image](https://user-images.githubusercontent.com/26011197/29519003-0d214ab6-8652-11e7-880f-5f1e71b25c96.png)
