@@ -57,14 +57,14 @@ A sample of the JSON format is as follows:
 - GRS Order Item Fieldset (FieloGRS__GRSOrderItemFieldset__c) - This field is filled with a JSON format containing all the optional fields when creating the order request. The optional fields are the ones created on step 4.  
 
 ## 6. Members Profile Configuration  
-   1. In the profile for the member user in the front end, give access to the following apex classes:  
+   1. **In the profile for the member user in the front end, give access to the following apex classes:**  
       - FieloGRS.RESTMember  
       - FieloGRS.RESTOrder  
   
 ![image](https://user-images.githubusercontent.com/26011197/29519070-581c91c4-8652-11e7-935d-5337432761bb.png)  
 ![image](https://user-images.githubusercontent.com/26011197/29519103-7f870aaa-8652-11e7-95b2-20378a97a0ef.png)  
 
-   2. Give access in the connected app for the admin user to the following class:  
+   2. **Give access in the connected app for the admin user to the following class:**  
       - FieloGRS.RESTOrderUpdate  
       
 ## 7. Setup Services in GRS  
