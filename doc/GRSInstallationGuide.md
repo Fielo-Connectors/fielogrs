@@ -64,4 +64,14 @@ A sample of the JSON format is as follows:
 ![image](https://user-images.githubusercontent.com/26011197/29519103-7f870aaa-8652-11e7-95b2-20378a97a0ef.png)  
 
    2. Give access in the connected app for the admin user to the following class:
-      - FieloGRS.RESTOrderUpdate
+      - FieloGRS.RESTOrderUpdate  
+      
+## 7. Setup Services in GRS  
+   - getMember  
+https://{!instance}.salesforce.com/services/apexrest/FieloGRS/V1/members/{!memberId}  
+
+   - createOrder  
+https://{!instance}.salesforce.com/services/apexrest/FieloGRS/V1/orders/  
+
+   - cancelOrder  
+https://{!instance}.salesforce.com/services/apexrest/FieloGRS/V1/orders/update/  
