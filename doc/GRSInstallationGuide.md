@@ -53,8 +53,18 @@ A sample of the JSON format is as follows:
 ![image](https://user-images.githubusercontent.com/26011197/29519003-0d214ab6-8652-11e7-880f-5f1e71b25c96.png)  
 
 - GRS Order Fieldset (FieloGRS__GRSOrderFieldset__c) - This field is filled with a JSON format containing all the optional fields when creating the order request. The optional fields are the ones created on step 4.  
+![image](https://user-images.githubusercontent.com/26011197/29529321-9811240c-8675-11e7-927d-0c30c41a812e.png)  
+:point_right: The fields below are already included in the package and don't need to be used in the Json:  
+➤ Order Type - type  
+➤ Member Employee ID - employeeID  
+➤ Order Number – orderNumber  
 
 - GRS Order Item Fieldset (FieloGRS__GRSOrderItemFieldset__c) - This field is filled with a JSON format containing all the optional fields when creating the order request. The optional fields are the ones created on step 4.  
+![image](https://user-images.githubusercontent.com/26011197/29529610-be8b6e0c-8676-11e7-9f3a-c072bffe3d4a.png)  
+:point_right: The fields below are already included in the package and don't need to be used in the Json:  
+➤ Order ID - orderId  
+➤ Point Cost – pointCost  
+➤ Quantity – quantity  
 
 ## 6. Members Profile Configuration  
    1. **In the profile for the member user in the front end, give access to the following apex classes:**  
