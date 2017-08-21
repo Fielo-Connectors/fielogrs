@@ -15,5 +15,11 @@ https:/{!instance}.salesforce.com/packaging/installPackage.apexp?p0=04tf40000018
 
 ## 3. Program Configuration (required for Member GET)
 **In *Program* object, make the following configuration:**
+
 - GRS Point Type (FieloGRS__GRSPointType__c) - Select the point type to be adopted in order to correctly display the Current Point Balance.  
 ![image](https://user-images.githubusercontent.com/26011197/29518455-c28180b8-864f-11e7-8bc8-b25cc42eab5e.png)
+
+- GRS Member Fieldset (FieloGRS__GRSMemberFieldset__c) - This field is filled with a JSON format containing all the API optional fields.   
+![image](https://user-images.githubusercontent.com/26011197/29518856-7831c1a6-8651-11e7-8f0a-d2209c09da55.png)
+
+A sample of the JSON format is as follows:
