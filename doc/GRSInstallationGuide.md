@@ -88,13 +88,15 @@ A sample of the JSON format is as follows:
    - Fill in the fields as follows and then press the *Save* button:
    ![image](https://user-images.githubusercontent.com/26011197/30078866-b41155b0-9254-11e7-97f3-75a1ba86023a.png)
    
-   2. **Create four New Custom fields as follows:**
- ![image](https://user-images.githubusercontent.com/26011197/30079294-254293a6-9256-11e7-8b97-7eac89f197c2.png)
- None of them is *Required* or has a *Default Value*.
+   2. **Create four New Custom fields as follows:**  
+   These four fields are defined as: one for the allowed fields for member, two for the allowed fields for provider order (because of the length) and the last one for the allowed fields for redemption item.  
+ ![image](https://user-images.githubusercontent.com/26011197/30079294-254293a6-9256-11e7-8b97-7eac89f197c2.png)  
+:point_right: None of them is *Required* or has a *Default Value*.  
  
-   
-   - Hit *Manage* button
-
+   3. **Define data format**     
+   - Hit *Manage* button to add a new set of data
+   - Click the *New* button above the *Default Organization Level Value* area
+   - 
 
 ## 8. Setup Services in GRS  
    - getMember  
