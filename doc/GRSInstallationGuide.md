@@ -95,7 +95,7 @@ A sample of the JSON format is as follows:
  
    3. **Define data format**     
    - Hit *Manage* button to add a new set of data
-   - Click the *New* button above the *Default Organization Level Value* area
+   - Click the *New* button **above the *Default Organization Level Value* area**
    - Set the location for each field an Save it
    - Press the *Edit* button in order to set the allowed data for each custom field:
    ![image](https://user-images.githubusercontent.com/26011197/30080352-b41509b2-9259-11e7-9d9d-050ca3518221.png)
