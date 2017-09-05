@@ -54,14 +54,18 @@ A sample of the JSON format is as follows:
 
 - GRS Order Fieldset (FieloGRS__GRSOrderFieldset__c) - This field is filled with a JSON format containing all the optional fields when creating the order request. The optional fields are the ones created on step 4.  
 ![image](https://user-images.githubusercontent.com/26011197/29529321-9811240c-8675-11e7-927d-0c30c41a812e.png)  
+
 :point_right: The fields below are already included in the package and don't need to be used in the Json:  
+
 ➤ Order Type - type  
 ➤ Member Employee ID - employeeID  
 ➤ Order Number – orderNumber  
 
 - GRS Order Item Fieldset (FieloGRS__GRSOrderItemFieldset__c) - This field is filled with a JSON format containing all the optional fields when creating the order request. The optional fields are the ones created on step 4.  
 ![image](https://user-images.githubusercontent.com/26011197/29529610-be8b6e0c-8676-11e7-9f3a-c072bffe3d4a.png)  
+
 :point_right: The fields below are already included in the package and don't need to be used in the Json:  
+
 ➤ Order ID - orderId  
 ➤ Point Cost – pointCost  
 ➤ Quantity – quantity  
@@ -77,7 +81,22 @@ A sample of the JSON format is as follows:
    2. **Give access in the connected app for the admin user to the following class:**  
       - FieloGRS.RESTOrderUpdate  
       
-## 7. Setup Services in GRS  
+## 7. Custom Settings
+   1. **Create custom settings that contain the allowed fields for member, order and order item**	
+   - Go to the Setup > Develop > Custom Settings:
+   - Click the *New* button
+   - Fill in the fields as follows and then press the *Save* button:
+   ![image](https://user-images.githubusercontent.com/26011197/30078866-b41155b0-9254-11e7-97f3-75a1ba86023a.png)
+   
+   2. **Create four New Custom fields as follows:**
+ ![image](https://user-images.githubusercontent.com/26011197/30079294-254293a6-9256-11e7-8b97-7eac89f197c2.png)
+ None of them is *Required* or has a *Default Value*.
+ 
+   
+   - Hit *Manage* button
+
+
+## 8. Setup Services in GRS  
    - getMember  
      https://{!instance}.salesforce.com/services/apexrest/FieloGRS/V1/members/{!memberId}  
 
