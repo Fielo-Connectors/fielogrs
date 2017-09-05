@@ -82,19 +82,9 @@ A sample of the JSON format is as follows:
       - FieloGRS.RESTOrderUpdate  
       
 ## 7. Custom Settings
-   1. **Create custom settings that contain the allowed fields for member, order and order item**	
-   - Go to the Setup > Develop > Custom Settings:
-   - Click the *New* button
-   - Fill in the fields as follows and then press the *Save* button:
-   ![image](https://user-images.githubusercontent.com/26011197/30078866-b41155b0-9254-11e7-97f3-75a1ba86023a.png)
-   
-   2. **Create four New Custom fields as follows:**  
-   These four fields are defined as: one for the allowed fields for member, two for the allowed fields for provider order (because of the length) and the last one for the allowed fields for redemption item.  
- ![image](https://user-images.githubusercontent.com/26011197/30079294-254293a6-9256-11e7-8b97-7eac89f197c2.png)  
-:point_right: None of them is *Required* or has a *Default Value*.  
- 
-   3. **Define data format**     
-   - Hit *Manage* button to add a new set of data
+   1. **Define data format for *GRS Allowed Fields* custom settings**   
+   - Go to the Setup > Develop > Custom Settings
+   - Hit *Manage* button beside the *GRS Allowed Fields* custom settings
    - Click the *New* button **above the *Default Organization Level Value* area**
    - Set the location for each field an Save it
    - Press the *Edit* button in order to set the allowed data for each custom field:
