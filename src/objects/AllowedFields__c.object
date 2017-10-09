@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Contains the allowed fields for member, order and order item</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>MemberAllowedFields__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Contains the member allowed fields</description>
+        <externalId>false</externalId>
+        <label>GRS Member Allowed Fields</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>OrderAllowedFields1__c</fullName>
+        <deprecated>false</deprecated>
+        <description>First set that contains the order allowed fields</description>
+        <externalId>false</externalId>
+        <label>GRS Order Allowed Fields 1</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>OrderAllowedFields2__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Second set that contains the allowed fields for order</description>
+        <externalId>false</externalId>
+        <label>GRS Order Allowed Fields 2</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>OrderItemAllowedFields__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Contains the order item allowed fields</description>
+        <externalId>false</externalId>
+        <label>GRS Order Item Allowed Fields</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <label>GRS Allowed Fields</label>
+    <visibility>Public</visibility>
+</CustomObject>
