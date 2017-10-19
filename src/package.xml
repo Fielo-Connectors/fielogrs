@@ -19,5 +19,9 @@
 		<members>FieloPLT__ProviderOrder__c</members>
 		<name>CustomObject</name>
 	</types>
+	<types>
+		<members>FieloPLT__RedemptionItem__c.GRSOrderId__c</members>
+		<name>CustomField</name>
+	</types>
 	<version>36.0</version>
 </Package>
