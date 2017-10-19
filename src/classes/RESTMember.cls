@@ -1,4 +1,4 @@
-	/********************************************************************
+    /********************************************************************
 * Company: Fielo
 * Developer: Juan Pablo Catena
 * Created Date: 18/07/2017
@@ -7,7 +7,7 @@
 
 @RestResource(urlMapping='/V1/members/*')
 global with sharing class RESTMember {
-	
+    
     @HttpGet
     global static void getMember(){
         String requestUri = RestContext.request.requestUri;
@@ -23,11 +23,11 @@ global with sharing class RESTMember {
             FieloPLT__Member__c queriedMember = [SELECT FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c, FieloPLT__Program__r.GRSMemberFieldset__c FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1];
             
             if(queriedMember.FieloPLT__Program__r.GRSPointType__r == null || String.isBlank(queriedMember.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c)){
-            	response.statusCode = 404;
-	            errorResponse.errorCode = 'BUSINESS_ERROR';
-	            errorResponse.message = 'Point type configuration missing';
-	            response.responseBody = Blob.valueOf(JSON.serialize(errorResponse));
-	            return;
+                response.statusCode = 404;
+                errorResponse.errorCode = 'BUSINESS_ERROR';
+                errorResponse.message = 'Point type configuration missing';
+                response.responseBody = Blob.valueOf(JSON.serialize(errorResponse));
+                return;
             }
 
             String pointBalanceField = queriedMember.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c;
@@ -35,12 +35,12 @@ global with sharing class RESTMember {
             Set<String> fieldsetToQuery = new Set<String>{pointBalanceField};
             List<FieldWrapper> memberFieldset;
             if(String.isNotBlank(queriedMember.FieloPLT__Program__r.GRSMemberFieldset__c)){
-	            //parse de json con fieldset casteado a wrapper interno
-	            memberFieldset = (List<FieldWrapper>)JSON.deserializeStrict(queriedMember.FieloPLT__Program__r.GRSMemberFieldset__c, List<FieldWrapper>.class);
-            	
-	            for(FieldWrapper mf : memberFieldset){
-	            	fieldsetToQuery.add(mf.sfFieldName);
-	            }
+                //parse de json con fieldset casteado a wrapper interno
+                memberFieldset = (List<FieldWrapper>)JSON.deserializeStrict(queriedMember.FieloPLT__Program__r.GRSMemberFieldset__c, List<FieldWrapper>.class);
+                
+                for(FieldWrapper mf : memberFieldset){
+                    fieldsetToQuery.add(mf.sfFieldName);
+                }
             }
 
             String memberRetrieveQuery = 'SELECT ' + String.join(new List<String>(fieldsetToQuery),',') + ' FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1';
@@ -53,14 +53,26 @@ global with sharing class RESTMember {
             returnMap.put('pointBalance', queriedMember.get(pointBalanceField));
 
             if(memberFieldset != null){
-            	//loop de json fieldset
-            	for(FieldWrapper mf : memberFieldset){
-                    //cargo los campos en el mapa
-            		returnMap.put(mf.grsFieldName, getFieldValue(queriedMember, mf.sfFieldName));
-	            }
+                // Locale special treatment
+                List<String> language_parts;
+                Boolean isLocale;
+                //loop de json fieldset
+                for(FieldWrapper mf : memberFieldset){
+                    // Locale special treatment
+                    isLocale = mf.isLocale != null ? mf.isLocale : false;
+                    
+                    // cargo los campos en el mapa
+                    // +Locale special treatment
+                    if (isLocale) {
+                        language_parts = ((String)getFieldValue(queriedMember, mf.sfFieldName)).split('_', 2);
+                        returnMap.put(mf.grsFieldName, language_parts[0]);
+                    } else {
+                        returnMap.put(mf.grsFieldName, getFieldValue(queriedMember, mf.sfFieldName));
+                    }
+                }
             }
 
-        	response.responseBody = Blob.valueOf(JSON.serialize(returnMap));
+            response.responseBody = Blob.valueOf(JSON.serialize(returnMap));
         } catch(Exception e){
             response.statusCode = 404;
             errorResponse.errorCode = 'BUSINESS_ERROR';
