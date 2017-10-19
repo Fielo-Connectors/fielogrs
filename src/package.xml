@@ -6,11 +6,11 @@
 	</types>
 	<types>
 		<members>*</members>
-		<name>ApexPage</name>
+		<name>ApexTrigger</name>
 	</types>
 	<types>
 		<members>*</members>
-		<name>ApexTrigger</name>
+		<name>ApexPage</name>
 	</types>
 	<types>
 		<members>AllowedFields__c</members>
