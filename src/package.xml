@@ -5,23 +5,19 @@
 		<name>ApexClass</name>
 	</types>
 	<types>
-		<members>CustomGallery</members>
+		<members>*</members>
 		<name>ApexPage</name>
 	</types>
 	<types>
-		<members>AllowedFields__c</members>
-		<members>AllowedFields__c</members>
-		<name>CustomObject</name>
+		<members>*</members>
+		<name>ApexTrigger</name>
 	</types>
 	<types>
- 		<members>FieloPLT__Program__c.GRSAccount__c</members>
- 		<members>FieloPLT__Program__c.GRSMemberFieldset__c</members>
- 		<members>FieloPLT__Program__c.GRSOrderFieldset__c</members>
- 		<members>FieloPLT__Program__c.GRSOrderItemFieldset__c</members>
- 		<members>FieloPLT__Program__c.GRSPointType__c</members>
- 		<members>FieloPLT__ProviderOrder__c.GRSOrderNumber__c</members>
- 		<members>FieloPLT__RedemptionItem__c.GRSOrderId__c</members>
- 		<name>CustomField</name>
- 	</types>
+		<members>AllowedFields__c</members>
+		<members>FieloPLT__Program__c</members>
+		<members>FieloPLT__RedemptionItem__c</members>
+		<members>FieloPLT__ProviderOrder__c</members>
+		<name>CustomObject</name>
+	</types>
 	<version>36.0</version>
 </Package>
