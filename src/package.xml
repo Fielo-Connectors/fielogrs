@@ -15,7 +15,6 @@
 	<types>
 		<members>AllowedFields__c</members>
 		<members>FieloPLT__Program__c</members>
-		<members>FieloPLT__RedemptionItem__c</members>
 		<members>FieloPLT__ProviderOrder__c</members>
 		<name>CustomObject</name>
 	</types>
