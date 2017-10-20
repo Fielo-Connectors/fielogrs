@@ -1,7 +1,7 @@
 global class LoginService {
     private static String adjustmentMemo = 'Balance credit adjustment to match source';
 
-	public static String login(Id memberId) {
+	global static String login(Id memberId) {
 		System.debug('LoginService : login');
 
 		String query = 'SELECT Id, ' +
