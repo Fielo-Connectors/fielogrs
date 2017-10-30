@@ -15,7 +15,7 @@ global class LoginService {
         try{
             member = (FieloPLT__Member__c) Database.query(query);
         } catch (Exception e) {
-            System.debug('Member ' + memberId + 'not found or Member doesn\'t belong to this user ' + userId + '.');
+            System.debug('Member ' + memberId + ' not found or member doesn\'t belong to the user ' + userId + '.');
         }
 
         if ( member != null ) {
