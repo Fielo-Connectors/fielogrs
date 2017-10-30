@@ -47,7 +47,7 @@ public with sharing class LoginServiceTest {
 
 		Test.startTest();
 		FieloPLT__Member__c member = [Select Id, FieloPLT__User__c From FieloPLT__Member__c Limit 1];
-		LoginService.login(member.Id, member.FieloPLT__User__c);
+		LoginService.login(member.Id);
 		Test.stopTest();
 	}
 
@@ -55,7 +55,7 @@ public with sharing class LoginServiceTest {
 		Test.setMock(HttpCalloutMock.class, new Mock('{}'));
 		Test.startTest();
 		FieloPLT__Member__c member = [Select Id, FieloPLT__User__c From FieloPLT__Member__c Limit 1];
-		LoginService.login(member.Id, member.FieloPLT__User__c);
+		LoginService.login(member.Id);
 		Test.stopTest();
 	}
 }

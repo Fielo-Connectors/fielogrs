@@ -1,24 +1,39 @@
 global class LoginService {
     private static String adjustmentMemo = 'Balance credit adjustment to match source';
 
-	global static String login(Id memberId, Id userId) {
+	global static String login(Id memberId) {
 		System.debug('LoginService : login');
 
 		String query = 'SELECT Id, ' +
             'FieloPLT__Program__r.GRSAccount__c, ' +
             'FieloPLT__Program__r.GRSPointType__r.FieloPLT__RedemptionItemBalanceField__c, ' +
             'FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c, ' +
-            'FieloPLT__Program__r.GRSMemberFieldset__c ' +
-            'FROM FieloPLT__Member__c WHERE Id =: memberId and FieloPLT__User__c = :userId LIMIT 1';
+            'FieloPLT__Program__r.GRSMemberFieldset__c, ' +
+            'FieloPLT__Type__c ' +
+            'FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1';
 
         FieloPLT__Member__c member;
+        Id userId = UserInfo.getUserId();
+
         try{
             member = (FieloPLT__Member__c) Database.query(query);
         } catch (Exception e) {
-            System.debug('Member ' + memberId + ' not found or member doesn\'t belong to the user ' + userId + '.');
+            throw new FieloPLT.FieloException (Label.MemberNotFound.replace('{0}',memberId));
         }
 
         if ( member != null ) {
+            query = 'SELECT RecordId, HasEditAccess FROM UserRecordAccess WHERE UserId = :userId AND RecordId = :memberId';
+
+            UserRecordAccess access = (UserRecordAccess) Database.query(query);
+
+            if (member.FieloPLT__Type__c == 'Organization Contributor') {
+                throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',memberId));
+            } else if (member.FieloPLT__Type__c == 'Individual Account' || member.FieloPLT__Type__c == 'Organization Account') {
+                if (!access.HasEditAccess) {
+                    throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',memberId));
+                }
+            }
+
             String pointBalanceField = member.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c;
             Set<String> fieldsetToQuery = new Set<String>{pointBalanceField};
 
@@ -94,6 +109,14 @@ global class LoginService {
 
             if (grsMember != null) {
                 return 'success'; 
+                
+                try{
+                    Users.validateAdminFields = false;
+                    update new User(id=userId, MemberId__c=memberId);
+                    Users.validateAdminFields = true;
+                } catch(Exception e) {
+                    Users.validateAdminFields = true;
+                }
             }
             return 'fail';
         } else {
