@@ -34,6 +34,14 @@ global class LoginService {
                 }
             }
 
+            try{
+                Users.validateAdminFields = false;
+                update new User(id=userId, MemberId__c=memberId);
+                Users.validateAdminFields = true;
+            } catch(Exception e) {
+                Users.validateAdminFields = true;
+            }
+
             String pointBalanceField = member.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c;
             Set<String> fieldsetToQuery = new Set<String>{pointBalanceField};
 
@@ -109,14 +117,6 @@ global class LoginService {
 
             if (grsMember != null) {
                 return 'success'; 
-                
-                try{
-                    Users.validateAdminFields = false;
-                    update new User(id=userId, MemberId__c=memberId);
-                    Users.validateAdminFields = true;
-                } catch(Exception e) {
-                    Users.validateAdminFields = true;
-                }
             }
             return 'fail';
         } else {

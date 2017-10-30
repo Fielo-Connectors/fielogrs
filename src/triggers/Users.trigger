@@ -1,3 +1,3 @@
-trigger Users on User (after update) {
-	Users.onAfterUpdate(Trigger.new, Trigger.oldMap);
+trigger Users on User (before update) {
+	Users.onBeforeUpdate(Trigger.new, Trigger.oldMap);
 }
