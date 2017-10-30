@@ -1,7 +1,7 @@
 global class LoginService {
     private static String adjustmentMemo = 'Balance credit adjustment to match source';
 
-	global static String login(Id memberId) {
+	global static String login(Id memberId, Id userId) {
 		System.debug('LoginService : login');
 
 		String query = 'SELECT Id, ' +
@@ -9,117 +9,96 @@ global class LoginService {
             'FieloPLT__Program__r.GRSPointType__r.FieloPLT__RedemptionItemBalanceField__c, ' +
             'FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c, ' +
             'FieloPLT__Program__r.GRSMemberFieldset__c ' +
-            'FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1';
+            'FROM FieloPLT__Member__c WHERE Id =: memberId and FieloPLT__User__c = :userId LIMIT 1';
 
-		FieloPLT__Member__c member = (FieloPLT__Member__c) Database.query(query); //:UserInfo.getUserId()
-
-        String pointBalanceField = member.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c;
-
-        Set<String> fieldsetToQuery = new Set<String>{pointBalanceField};
-
-        List<FieldWrapper> memberFieldset;
-        if(String.isNotBlank(member.FieloPLT__Program__r.GRSMemberFieldset__c)){
-            //parse de json con fieldset casteado a wrapper interno
-            memberFieldset = (List<FieldWrapper>)JSON.deserialize(member.FieloPLT__Program__r.GRSMemberFieldset__c, List<FieldWrapper>.class);
-            
-            for(FieldWrapper mf : memberFieldset){
-                fieldsetToQuery.add(mf.sfFieldName);
-            }
+        FieloPLT__Member__c member;
+        try{
+            member = (FieloPLT__Member__c) Database.query(query);
+        } catch (Exception e) {
+            System.debug('Member ' + memberId + 'not found or Member doesn\'t belong to this user ' + userId + '.');
         }
 
-        String memberRetrieveQuery = 'SELECT ' + String.join(new List<String>(fieldsetToQuery),',') + ' FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1';
+        if ( member != null ) {
+            String pointBalanceField = member.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c;
+            Set<String> fieldsetToQuery = new Set<String>{pointBalanceField};
 
-        member = Database.query(memberRetrieveQuery);
-        
-        Settings__c grsSettings = Settings__c.getInstance(UserInfo.getProfileId());
-		
-		String domain = grsSettings.Domain__c;
-        String apiKey = grsSettings.ApiKey__c;
-        String adminId = grsSettings.AdminId__c;
+            List<FieldWrapper> memberFieldset;
+            if(String.isNotBlank(member.FieloPLT__Program__r.GRSMemberFieldset__c)){
+                //parse de json con fieldset casteado a wrapper interno
+                memberFieldset = (List<FieldWrapper>)JSON.deserialize(member.FieloPLT__Program__r.GRSMemberFieldset__c, List<FieldWrapper>.class);
+                
+                for(FieldWrapper mf : memberFieldset){
+                    fieldsetToQuery.add(mf.sfFieldName);
+                }
+            }
 
-        StorefrontService sfs = new StorefrontService(domain);
-        sfs.setUserAuth(member.Id, apiKey);
-        sfs.setAdminAuth(adminId, apiKey);
+            String memberRetrieveQuery = 'SELECT ' + String.join(new List<String>(fieldsetToQuery),',') + ' FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1';
 
-        Map<String,Object> grsMember = sfs.getMember();
+            member = Database.query(memberRetrieveQuery);
+            
+            Settings__c grsSettings = Settings__c.getInstance(UserInfo.getProfileId());
+            
+            String domain = grsSettings.Domain__c;
+            String apiKey = grsSettings.ApiKey__c;
+            String adminId = grsSettings.AdminId__c;
 
-        Boolean createMember = grsMember == null ?
-            true :
-            grsMember.containsKey('id') ?
-                ( grsMember.get('id') != null ? false : true ) :
-                true;
+            StorefrontService sfs = new StorefrontService(domain);
+            sfs.setUserAuth(member.Id, apiKey);
+            sfs.setAdminAuth(adminId, apiKey);
 
-        Map<String,Object> memberData = new Map<String,Object>();
+            Map<String,Object> grsMember = sfs.getMember();
 
-        memberData.put('pointBalance', member.get(pointBalanceField));
-        // Locale special treatment
-        List<String> language_parts;
-        Boolean isLocale;
+            Boolean createMember = grsMember == null ?
+                true :
+                grsMember.containsKey('id') ?
+                    ( grsMember.get('id') != null ? false : true ) :
+                    true;
 
-        for(FieldWrapper mf : memberFieldset){
+            Map<String,Object> memberData = new Map<String,Object>();
+
+            memberData.put('pointBalance', member.get(pointBalanceField));
             // Locale special treatment
-            isLocale = mf.isLocale != null ? mf.isLocale : false;
+            List<String> language_parts;
+            Boolean isLocale;
 
-            // cargo los campos en el mapa
-            // +Locale special treatment
-            if (isLocale) {
-                language_parts = ((String)getFieldValue(member, mf.sfFieldName)).split('_', 2);
-                memberData.put(mf.grsFieldName, language_parts[0]);
-            } else {
-                memberData.put(mf.grsFieldName, getFieldValue(member, mf.sfFieldName));
+            for(FieldWrapper mf : memberFieldset){
+                // Locale special treatment
+                isLocale = mf.isLocale != null ? mf.isLocale : false;
+
+                // cargo los campos en el mapa
+                // +Locale special treatment
+                if (isLocale) {
+                    language_parts = ((String)getFieldValue(member, mf.sfFieldName)).split('_', 2);
+                    memberData.put(mf.grsFieldName, language_parts[0]);
+                } else {
+                    memberData.put(mf.grsFieldName, getFieldValue(member, mf.sfFieldName));
+                }
             }
-        }
 
-        //do we need to create or update the member?
-        if (createMember) {
-            memberData.put('accessGroups', (Object)new List<String>{'defaultStorefrontExternalMember'});
-            grsMember = sfs.createMember(memberData);
+            //do we need to create or update the member?
+            if (createMember) {
+                memberData.put('accessGroups', (Object)new List<String>{'defaultStorefrontExternalMember'});
+                grsMember = sfs.createMember(memberData);
+            } else {
+                memberData.put('id', grsMember.get('id'));
+                memberData.put('hierarchyNodeCode', 'ROOT');
+                memberData.put('accessGroups', (Object)new List<String>{'defaultStorefrontExternalMember'});
+                grsMember = sfs.updateMember(memberData);
+            }
+            
+            System.debug('Member Initiated');
+            System.debug(JSON.serializePretty(grsMember));
+
+
+            System.debug('Creating Session');
+
+            if (grsMember != null) {
+                return 'success'; 
+            }
+            return 'fail';
         } else {
-            memberData.put('id', grsMember.get('id'));
-            memberData.put('hierarchyNodeCode', 'ROOT');
-            memberData.put('accessGroups', (Object)new List<String>{'defaultStorefrontExternalMember'});
-            grsMember = sfs.updateMember(memberData);
+            return 'fail';
         }
-        
-        System.debug('Member Initiated');
-        System.debug(JSON.serializePretty(grsMember));
-
-
-        System.debug('Creating Session');
-        // StorefrontService.MemberSsoSessionWrapper mssw = sfs.getSsoSession();
-
-        /*if (mssw != null) {
-            if (mssw.url != null) {
-                this.url = mssw.url;
-            }
-        }*/
-
-        //update the member's point balance if needed
-        /*
-        System.debug('Updating Member Points');
-        if (grsMember.get('balance') != member.FieloPLT__Points__c) {
-            gcode_glc.StorefrontSDK gcode_sfs = new gcode_glc.StorefrontSDK(domain);
-            gcode_sfs.setUserAuth(member.Id, apiKey);
-            gcode_sfs.setAdminAuth(adminId, apiKey);
-            
-            gcode_glc.PointsAdjustment adjustment = new gcode_glc.PointsAdjustment();
-            adjustment.pin = member.Id;
-            adjustment.amount = member.FieloPLT__Points__c.intValue() - Integer.valueOf(grsMember.get('balance'));
-            adjustment.memo = adjustmentMemo;
-            System.debug(adjustment);
-            
-            gcode_glc.ClientApiResult result = gcode_sfs.adjustPoints(adjustment);
-            if (result.statusCode == gcode_glc.ClientApiResult.STATUS_OK) {
-                System.debug('Member points adjusted');
-            } else {
-                System.debug('Point adjustment failed');
-            }
-        }
-        */
-        if (grsMember != null) {
-            return 'success'; 
-        }
-        return 'fail';
     }
 
     private static Object getFieldValue(FieloPLT__Member__c member, String sfFieldName){
