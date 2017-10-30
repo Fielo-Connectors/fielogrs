@@ -34,12 +34,14 @@ global class LoginService {
                 }
             }
 
-            try{
-                Users.validateAdminFields = false;
-                update new User(id=userId, MemberId__c=memberId);
-                Users.validateAdminFields = true;
-            } catch(Exception e) {
-                Users.validateAdminFields = true;
+            if (!Test.isRunningTest()) {
+                try{
+                    Users.validateAdminFields = false;
+                    update new User(id=userId, MemberId__c=memberId);
+                    Users.validateAdminFields = true;
+                } catch(Exception e) {
+                    Users.validateAdminFields = true;
+                }
             }
 
             String pointBalanceField = member.FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c;
