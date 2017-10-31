@@ -107,15 +107,6 @@ global class LoginService {
             System.debug('Creating Session');
 
             if (grsMember != null) {
-                    
-                    try{
-                        Users.validateAdminFields = false;
-                        update new User(id=userId, MemberId__c=memberId);
-                        Users.validateAdminFields = true;
-                    } catch(Exception e) {
-                        Users.validateAdminFields = true;
-                    }
-
                 return 'success';
             }
             return 'fail';
