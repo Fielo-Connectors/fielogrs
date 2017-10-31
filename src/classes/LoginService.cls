@@ -93,11 +93,10 @@ global class LoginService {
             //do we need to create or update the member?
             if (createMember) {
                 memberData.put('accessGroups', (Object)new List<String>{'defaultStorefrontExternalMember'});
+                memberData.put('hierarchyNodeCode', 'ROOT');
                 grsMember = sfs.createMember(memberData);
             } else {
                 memberData.put('id', grsMember.get('id'));
-                memberData.put('hierarchyNodeCode', 'ROOT');
-                memberData.put('accessGroups', (Object)new List<String>{'defaultStorefrontExternalMember'});
                 grsMember = sfs.updateMember(memberData);
             }
             

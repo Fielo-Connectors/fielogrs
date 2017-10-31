@@ -70,6 +70,15 @@ public class StorefrontService {
 				Map<String,Object> member = (Map<String,Object>) JSON.deserializeUntyped(res.getBody());
 				System.debug(member);
 
+				if (member.containsKey('error')) {
+					Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
+					if (errorMap.containsKey('errorMessage')) {
+						if (errorMap.get('errorMessage')!='') {
+							throw new FieloPLT.FieloException((String)errorMap.get('errorMessage'));
+						}
+					}
+				}
+
 				return member;
 			}
 		} catch(System.CalloutException e) {
@@ -103,6 +112,15 @@ public class StorefrontService {
 
 				Map<String,Object> member = (Map<String,Object>) JSON.deserializeUntyped(res.getBody());
 				System.debug(member);
+
+				if (member.containsKey('error')) {
+					Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
+					if (errorMap.containsKey('errorMessage')) {
+						if (errorMap.get('errorMessage')!='') {
+							throw new FieloPLT.FieloException((String)errorMap.get('errorMessage'));
+						}
+					}
+				}
 
 				return member;
 			}
@@ -140,6 +158,15 @@ public class StorefrontService {
 				member = (Map<String,Object>) JSON.deserializeUntyped(res.getBody());
 				System.debug(member);
 
+				if (member.containsKey('error')) {
+					Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
+					if (errorMap.containsKey('errorMessage')) {
+						if (errorMap.get('errorMessage')!='') {
+							throw new FieloPLT.FieloException((String)errorMap.get('errorMessage'));
+						}
+					}
+				}
+				
 				return member;
 			}
 
