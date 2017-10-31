@@ -70,17 +70,6 @@ public class StorefrontService {
 				Map<String,Object> member = (Map<String,Object>) JSON.deserializeUntyped(res.getBody());
 				System.debug(member);
 
-				if (member.containsKey('error')) {
-					if (member.get('error')!=null) {
-						Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
-						if (errorMap.containsKey('errorMessage')) {
-							if (errorMap.get('errorMessage')!='') {
-								throw new FieloPLT.FieloException('getMember: ' + (String)errorMap.get('errorMessage'));
-							}
-						}
-					}
-				}
-
 				return member;
 			}
 		} catch(System.CalloutException e) {
