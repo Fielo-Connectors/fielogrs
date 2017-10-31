@@ -71,10 +71,12 @@ public class StorefrontService {
 				System.debug(member);
 
 				if (member.containsKey('error')) {
-					Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
-					if (errorMap.containsKey('errorMessage')) {
-						if (errorMap.get('errorMessage')!='') {
-							throw new FieloPLT.FieloException((String)errorMap.get('errorMessage'));
+					if (member.get('error')!=null) {
+						Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
+						if (errorMap.containsKey('errorMessage')) {
+							if (errorMap.get('errorMessage')!='') {
+								throw new FieloPLT.FieloException('getMember: ' + (String)errorMap.get('errorMessage'));
+							}
 						}
 					}
 				}
@@ -114,10 +116,12 @@ public class StorefrontService {
 				System.debug(member);
 
 				if (member.containsKey('error')) {
-					Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
-					if (errorMap.containsKey('errorMessage')) {
-						if (errorMap.get('errorMessage')!='') {
-							throw new FieloPLT.FieloException((String)errorMap.get('errorMessage'));
+					if (member.get('error')!=null) {
+						Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
+						if (errorMap.containsKey('errorMessage')) {
+							if (errorMap.get('errorMessage')!='') {
+								throw new FieloPLT.FieloException('createMember: ' + (String)errorMap.get('errorMessage'));
+							}
 						}
 					}
 				}
@@ -159,10 +163,12 @@ public class StorefrontService {
 				System.debug(member);
 
 				if (member.containsKey('error')) {
-					Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
-					if (errorMap.containsKey('errorMessage')) {
-						if (errorMap.get('errorMessage')!='') {
-							throw new FieloPLT.FieloException((String)errorMap.get('errorMessage'));
+					if (member.get('error')!=null) {
+						Map<String,Object> errorMap = (Map<String,Object>) member.get('error');
+						if (errorMap.containsKey('errorMessage')) {
+							if (errorMap.get('errorMessage')!='') {
+								throw new FieloPLT.FieloException('updateMember: ' + (String)errorMap.get('errorMessage'));
+							}
 						}
 					}
 				}

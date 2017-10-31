@@ -72,6 +72,8 @@ global class LoginService {
             Map<String,Object> memberData = new Map<String,Object>();
 
             memberData.put('pointBalance', member.get(pointBalanceField));
+            memberData.put('accessGroups', (Object)new List<String>{'defaultStorefrontExternalMember'});
+            memberData.put('hierarchyNodeCode', 'ROOT');
             // Locale special treatment
             List<String> language_parts;
             Boolean isLocale;
@@ -89,11 +91,10 @@ global class LoginService {
                     memberData.put(mf.grsFieldName, getFieldValue(member, mf.sfFieldName));
                 }
             }
+            
 
             //do we need to create or update the member?
             if (createMember) {
-                memberData.put('accessGroups', (Object)new List<String>{'defaultStorefrontExternalMember'});
-                memberData.put('hierarchyNodeCode', 'ROOT');
                 grsMember = sfs.createMember(memberData);
             } else {
                 memberData.put('id', grsMember.get('id'));
