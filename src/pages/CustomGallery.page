@@ -1,0 +1,16 @@
+<apex:page controller="CustomGalleryController" sidebar="false">
+    <!--
+    <apex:iframe src="{!URL}"
+        frameborder="false"
+        rendered="{!renderCatalog}"
+        scrolling="true"
+      />
+    -->
+    <apex:canvasApp developerName="GRS_Storefront_App" 
+        width="100%"
+        maxHeight="infinite"
+        scrolling="no"
+        rendered="{!renderCatalog}"
+    />
+
+</apex:page>
