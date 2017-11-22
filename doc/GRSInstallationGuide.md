@@ -71,8 +71,9 @@ A sample of the JSON format is as follows:
 
 ## 6. Members Profile Configuration  
    1. **In the profile for the member user in the front end, give access to the following apex classes:**  
-      - FieloGRS.RESTMember  
-      - FieloGRS.RESTOrder  
+      - FieloGRS.RESTMember
+      - FieloGRS.RESTOrder
+      - FieloGRS.LoginService
 
 ![image](https://user-images.githubusercontent.com/26011197/29519070-581c91c4-8652-11e7-935d-5337432761bb.png)  
 ![image](https://user-images.githubusercontent.com/26011197/29519103-7f870aaa-8652-11e7-95b2-20378a97a0ef.png)  
@@ -106,7 +107,7 @@ A sample of the JSON format is as follows:
    - This values must be provided by GRS
    ![image](https://github.com/Fielo-Connectors/fielogrs/blob/feature/documentation/doc/Images/GRS%20Settings.gif)
    - Click *Save*.
-   
+
 ## 8. Setup Services in GRS  
    - getMember  
      https://{!instance}.salesforce.com/services/apexrest/FieloGRS/V1/members/{!memberId}  
