@@ -91,7 +91,7 @@ A sample of the JSON format is as follows:
    - Set the location for each field an Save it
    - Press the *Edit* button in order to set the allowed data for each custom field:
    ![image](https://user-images.githubusercontent.com/26011197/30080352-b41509b2-9259-11e7-9d9d-050ca3518221.png)
-   - _Sample values_
+   - _Sample values:_
       - **​GRS Member Allowed Fields:** firstName,lastName,email,address1,address2,country,city,provinceState,telephone,language,employeeId,postalCode,balance
       - **​GRS Order Allowed Fields 1:** ​businessAddress,totalPointCost,totalPointCostLessPointsPurchased,pin,pointsPurchased,pointsPurchasedCost,pointsPurchasedCurrency,shipAddress1
       - **​GRS Order Allowed Fields 2:** ​shipAddress2,shipCity,shipCompany,shipCountry,shipEmail,shipName,shipPostal,shipProvinceState,shipTelephone,discountCoupon
