@@ -93,14 +93,16 @@ A sample of the JSON format is as follows:
    ![image](https://user-images.githubusercontent.com/26011197/30080352-b41509b2-9259-11e7-9d9d-050ca3518221.png)
 
 ```
-​GRS Member Allowed Fields:
+**​GRS Member Allowed Fields:**
 firstName,lastName,email,address1,address2,country,city,provinceState,telephone,language,employeeId,postalCode,balance
 
-​GRS Order Allowed Fields 1: ​businessAddress,totalPointCost,totalPointCostLessPointsPurchased,pin,pointsPurchased,pointsPurchasedCost,pointsPurchasedCurrency,shipAddress1
-​GRS Order Allowed Fields 2:
+**​GRS Order Allowed Fields 1:**
+​businessAddress,totalPointCost,totalPointCostLessPointsPurchased,pin,pointsPurchased,pointsPurchasedCost,pointsPurchasedCurrency,shipAddress1
+
+**​GRS Order Allowed Fields 2:**
 ​shipAddress2,shipCity,shipCompany,shipCountry,shipEmail,shipName,shipPostal,shipProvinceState,shipTelephone,discountCoupon
 
-​GRS Order Item Allowed Fields:
+**​GRS Order Item Allowed Fields:**
 ​catalogCode,catalogName,description,lineItemId,name,orderedAt |
 ```
 
