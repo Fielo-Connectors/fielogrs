@@ -104,6 +104,7 @@ A sample of the JSON format is as follows:
    - Hit *Manage* button beside the *GRS Settings* custom settings
    - Click the *New* button **above the *Default Organization Level Value* area**
    - This values must be provided by GRS
+   ![image](fielogrs/doc/Images/GRS Settings.gif)
 
 ## 8. Setup Services in GRS  
    - getMember  
