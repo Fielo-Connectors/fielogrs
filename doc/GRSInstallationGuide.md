@@ -97,7 +97,7 @@ A sample of the JSON format is as follows:
       - **​GRS Order Allowed Fields 2:** ​shipAddress2,shipCity,shipCompany,shipCountry,shipEmail,shipName,shipPostal,shipProvinceState,shipTelephone,discountCoupon
       - **​GRS Order Item Allowed Fields:** ​catalogCode,catalogName,description,lineItemId,name,orderedAt
 
-   - Click *Save*.  
+   - Click *Save*.
 
    2. **Set storefront credentials for *​GRS Settings* custom settings**
    - Go to the Setup > Develop > Custom Settings
@@ -105,7 +105,8 @@ A sample of the JSON format is as follows:
    - Click the *New* button **above the *Default Organization Level Value* area**
    - This values must be provided by GRS
    ![image](https://github.com/Fielo-Connectors/fielogrs/blob/feature/documentation/doc/Images/GRS%20Settings.gif)
-
+   - Click *Save*.
+   
 ## 8. Setup Services in GRS  
    - getMember  
      https://{!instance}.salesforce.com/services/apexrest/FieloGRS/V1/members/{!memberId}  
