@@ -22,7 +22,13 @@ public with sharing class LoginServiceTest {
         testProgram.Name = 'Test Program';
         testProgram.FieloPLT__OnlineTransactionProcessing__c = true;
         testProgram.GRSMemberFieldset__c = '[{"grsFieldName":"employeeId","sfFieldName":"Id"},{"grsFieldName":"firstName","sfFieldName":"FieloPLT__Contact__r.FirstName"},{"grsFieldName":"lastName","sfFieldName":"FieloPLT__Contact__r.LastName"},{"grsFieldName":"email","sfFieldName":"FieloPLT__Email__c"},{"grsFieldName":"address1","sfFieldName":"FieloPLT__Contact__r.MailingStreet"},{"grsFieldName":"city","sfFieldName":"FieloPLT__Contact__r.MailingCity"},{"grsFieldName":"postalCode","sfFieldName":"FieloPLT__Contact__r.MailingPostalCode"},{"grsFieldName":"provinceState","sfFieldName":"FieloPLT__Contact__r.MailingStateCode"},{"grsFieldName":"country","sfFieldName":"FieloPLT__Contact__r.MailingCountryCode"},{"grsFieldName":"telephone","sfFieldName":"FieloPLT__Contact__r.Phone"},{"grsFieldName":"language","sfFieldName":"FieloPLT__User__r.LanguageLocaleKey","isLocale":true}]';
+        testProgram.GRSMetadataFieldset__c = '[{"id":"tier", "name":"tier", "fieldName":"FieloPLT__CurrentLevelMember__r.FieloPLT__Level__r.Name"},{"id":"account_type", "name":"account_type", "dataValue":"test"}]';
         insert testProgram;
+
+        FieloPLT__Level__c level = new FieloPLT__Level__c();
+        level.FieloPLT__Program__c = testProgram.Id;
+        level.name = 'Gold';
+        insert level;
 
         //Program Point Type and Point Type Id
         FieloPLT__ProgramPointType__c ppt = [SELECT Id, FieloPLT__PointType__c, FieloPLT__RequestPointApproval__c FROM FieloPLT__ProgramPointType__c WHERE FieloPLT__Program__c =: testProgram.Id limit 1];
@@ -40,6 +46,13 @@ public with sharing class LoginServiceTest {
         testMember.FieloPLT__Program__c = testProgram.id;
         testMember.FieloPLT__User__c = UserInfo.getUserId();
         insert testMember;
+
+        FieloPLT__LevelMember__c memberLevel = new FieloPLT__LevelMember__c();
+        memberLevel.FieloPLT__Level__c = level.Id;
+        memberLevel.FieloPLT__Member__c = testMember.Id;
+        insert memberLevel;
+
+        update new FieloPLT__Member__c(Id = testMember.Id,FieloPLT__CurrentLevelMember__c = memberLevel.Id);
 	}
 	
 	public static testMethod void testLoginUpdateMember(){

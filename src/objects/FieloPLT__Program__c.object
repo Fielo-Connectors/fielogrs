@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -51,6 +47,7 @@
     <description>Programs establish the general operation settings of your loyalty program.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
     <enableEnhancedLookup>false</enableEnhancedLookup>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
@@ -199,6 +196,7 @@
     <fields>
         <fullName>GRSAccount__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>GRS Account</label>
         <referenceTo>Account</referenceTo>
@@ -210,6 +208,7 @@
     </fields>
     <fields>
         <fullName>GRSMemberFieldset__c</fullName>
+        <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>GRS Member Fieldset</label>
         <length>32768</length>
@@ -218,7 +217,17 @@
         <visibleLines>3</visibleLines>
     </fields>
     <fields>
+        <fullName>GRSMetadataFieldSet__c</fullName>
+        <externalId>false</externalId>
+        <label>GRS Metadata FieldSet</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>GRSOrderFieldset__c</fullName>
+        <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>GRS Order Fieldset</label>
         <length>32768</length>
@@ -228,6 +237,7 @@
     </fields>
     <fields>
         <fullName>GRSOrderItemFieldset__c</fullName>
+        <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>GRS Order Item Fieldset</label>
         <length>32768</length>
@@ -238,6 +248,7 @@
     <fields>
         <fullName>GRSPointType__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>GRS Point Type</label>
         <referenceTo>FieloPLT__PointType__c</referenceTo>
@@ -263,4 +274,5 @@
         <errorDisplayField>FieloPLT__NumberOfVoucherDigits__c</errorDisplayField>
         <errorMessage>Voucher must include at least 4 digits.</errorMessage>
     </validationRules>
+    <visibility>Public</visibility>
 </CustomObject>

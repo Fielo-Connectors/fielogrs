@@ -9,6 +9,7 @@ global class LoginService {
             'FieloPLT__Program__r.GRSPointType__r.FieloPLT__RedemptionItemBalanceField__c, ' +
             'FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c, ' +
             'FieloPLT__Program__r.GRSMemberFieldset__c, ' +
+            'FieloPLT__Program__r.GRSMetadataFieldSet__c, ' +
             'FieloPLT__Type__c ' +
             'FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1';
 
@@ -44,6 +45,16 @@ global class LoginService {
                 
                 for(FieldWrapper mf : memberFieldset){
                     fieldsetToQuery.add(mf.sfFieldName);
+                }
+            }
+            List<Map<String,String>> metadataFieldset;
+            if(String.isNotBlank(member.FieloPLT__Program__r.GRSMetadataFieldSet__c)){
+                metadataFieldset = (List<Map<String,String>>)JSON.deserialize(member.FieloPLT__Program__r.GRSMetadataFieldSet__c, List<Map<String,String>>.class);
+                
+                for(Map<String,String> mdf : metadataFieldset){
+                    if (mdf.containsKey('id') && mdf.containsKey('name') && mdf.containsKey('fieldName')) {
+                        fieldsetToQuery.add(mdf.get('fieldName'));
+                    }
                 }
             }
 
@@ -90,6 +101,28 @@ global class LoginService {
                 } else {
                     memberData.put(mf.grsFieldName, getFieldValue(member, mf.sfFieldName));
                 }
+            }
+
+            if (metadataFieldset!=null) {
+                List<Map<String,Object>> metadataList = new List<Map<String,Object>>(); 
+                Map<String,Object> metadata;
+                for (Map<String,String> mdf: metadataFieldset) {
+                    if (mdf.containsKey('id') && mdf.containsKey('name') && (mdf.containsKey('fieldName') || mdf.containsKey('dataValue'))) {
+                        metadata = new Map<String,Object>();
+                        metadata.put('id',(Object)mdf.get('id'));
+                        metadata.put('name',(Object)mdf.get('name'));
+                        if (mdf.containsKey('fieldName') && !mdf.containsKey('dataValue')) {
+                            metadata.put('data',(Object)getFieldValue(member, mdf.get('fieldName')));
+                        }
+                        if (!mdf.containsKey('fieldName') && mdf.containsKey('dataValue')) {
+                            metadata.put('data',(Object)mdf.get('dataValue'));
+                        }
+                        if (metadata.containsKey('id') && metadata.containsKey('name') && metadata.containsKey('data')) {
+                            metadataList.add(metadata);
+                        }
+                    }
+                }
+                memberData.put('metadata', (Object)metadataList);
             }
             
 

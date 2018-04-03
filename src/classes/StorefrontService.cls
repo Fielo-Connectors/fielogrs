@@ -80,7 +80,7 @@ public class StorefrontService {
 
 	public Map<String,Object> createMember(Map<String,Object> newMember) {
 		System.debug('Calling Storefront API: createSubordinateAccount');
-		System.debug(newMember);
+		System.debug(JSON.serializePretty(newMember));
 
 		HttpRequest req = new HttpRequest(); 
 		req.setMethod('POST');
