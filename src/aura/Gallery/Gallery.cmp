@@ -1,4 +1,4 @@
-<aura:component implements="forceCommunity:availableForAllPageTypes" controller="GalleryController">
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" controller="GalleryController">
     <aura:attribute name="NamespacePrefix" type="String" access="global"/>
     <aura:attribute name="appName" type="String" access="global"/>
     <aura:attribute name="CanvasParameters" type="String" access="global"/>
