@@ -1,0 +1,21 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" controller="GalleryController">
+    <aura:attribute name="NamespacePrefix" type="String" access="global"/>
+    <aura:attribute name="appName" type="String" access="global"/>
+    <aura:attribute name="CanvasParameters" type="String" access="global"/>
+    <aura:attribute name="grsRouteOption" type="String" access="global" default="Gallery"/>
+    <aura:attribute name="member" type="FieloPLT__Member__c"/>
+    <aura:attribute name="ssoReady" type="Boolean"/>
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+	<aura:handler event="FieloPLT:UpdateMemberEvent" action="{!c.updateMember}"/>
+	
+    <aura:if isTrue="{!and(v.appName != null, v.member != null, v.ssoReady)}">
+    	<force:canvasApp developerName="{!v.appName}"
+                     namespacePrefix="{!v.NamespacePrefix}"
+                     parameters="{!v.CanvasParameters}"
+                     width="100%"
+                     maxHeight="infinite"
+                     scrolling="no"/>
+    </aura:if>
+    
+</aura:component>

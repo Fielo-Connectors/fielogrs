@@ -1,0 +1,5 @@
+<design:component label="FieloGRS - Gallery">
+	<design:attribute label="Namespace" name="NamespacePrefix" description="Optional - NamespacePrefix of the canvas app"/>
+    <design:attribute label="App Id" name="appName" description="Required - Name or Id of the Connected App"/>
+	<design:attribute label="Route" name="grsRouteOption" description="Optional - Page to be displayed from Storefront" default="Gallery"/>    
+</design:component>
