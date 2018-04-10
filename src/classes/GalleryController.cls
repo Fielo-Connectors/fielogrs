@@ -8,19 +8,31 @@ public class GalleryController {
             result = LoginService.login(currentUser.FieloGRS__MemberId__c) == 'success';
             return result;
         } catch(Exception e) {
-            System.debug(e);
+            throw new FieloPLT.FieloException (e);
         }
         return result;
     }
 
     @AuraEnabled
     public static FieloPLT__Member__c setCurrentMember(FieloPLT__Member__c member) {
-        UserService.enableAdminPermission(true);
-        update new User(
-            Id = UserInfo.getUserId(),
-            FieloGRS__MemberId__c = member.Id
-        );
-        UserService.enableAdminPermission(false);
+        if (member != null) {
+            if (member.Id != null) {
+                Id userId = UserInfo.getUserId();
+                String memberId = String.valueOf(member.Id);
+                List<User> users = Database.query('SELECT Id FROM User WHERE Id = :userId AND FieloGRS__MemberId__c = :memberId');
+        
+                if (users.isEmpty()) {
+                    FieloGRS.UserService.enableAdminPermission(true);
+                    User currentUser = new User();
+                    currentUser.Id = userId;
+                    if (Schema.sObjectType.User.fields.MemberId__c.isUpdateable()) {
+                        currentUser.MemberId__c = member.Id;
+                    }
+                    update currentUser;
+                    FieloGRS.UserService.enableAdminPermission(false);
+                }
+            }
+        }
         return member;
     }
 }
