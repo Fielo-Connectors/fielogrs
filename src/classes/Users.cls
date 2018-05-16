@@ -14,4 +14,45 @@ public class Users {
             }
         }
     }
+
+    public static void onAfterInsert(List<User> records) {
+        if(FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()) != null && FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()).FieloPLT__To__c >= system.now()){
+            validateAdminFields = false;
+            System.debug('No permission on Users');
+        }
+        System.debug('on Users');
+        if (validateAdminFields) {
+            System.debug('permission ok on Users');
+            Set<Id> contactsIds = new Set<Id>();
+            for(User u: records) {
+                contactsIds.add(u.ContactId);
+            }
+
+            List<FieloPLT__Member__c> members = [SELECT Id,FieloPLT__Contact__c FROM FieloPLT__Member__c WHERE FieloPLT__Contact__c IN :contactsIds];
+
+            Map<Id,Id> memberByContactMap = new Map<Id,Id>();
+
+            for(FieloPLT__Member__c m: members){
+                memberByContactMap.put(m.FieloPLT__Contact__c,m.Id);
+            }
+            List<User> users = new List<User>();
+
+            for(User u: records) {
+                if(memberByContactMap.containsKey(u.ContactId)){
+                    users.add(
+                        new User(
+                            Id=u.Id,
+                            MemberId__c=memberByContactMap.get(u.ContactId)
+                        )
+                    );
+                }
+
+            }
+            if (!users.isEmpty()) {
+                UserService.enableAdminPermission(true);
+                update users;
+                UserService.enableAdminPermission(false);
+            }
+        }
+    }
 }
