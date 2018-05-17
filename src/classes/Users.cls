@@ -18,11 +18,9 @@ public class Users {
     public static void onAfterInsert(List<User> records) {
         if(FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()) != null && FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()).FieloPLT__To__c >= system.now()){
             validateAdminFields = false;
-            System.debug('No permission on Users');
         }
-        System.debug('on Users');
+
         if (validateAdminFields) {
-            System.debug('permission ok on Users');
             Set<Id> contactsIds = new Set<Id>();
             for(User u: records) {
                 contactsIds.add(u.ContactId);
