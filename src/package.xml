@@ -9,10 +9,6 @@
 		<name>ApexTrigger</name>
 	</types>
 	<types>
-		<members>*</members>
-		<name>ApexPage</name>
-	</types>
-	<types>
 		<members>AllowedFields__c</members>
 		<members>FieloPLT__Program__c</members>
 		<members>FieloPLT__ProviderOrder__c</members>
