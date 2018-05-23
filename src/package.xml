@@ -9,18 +9,22 @@
 		<name>ApexTrigger</name>
 	</types>
 	<types>
-		<members>*</members>
-		<name>ApexPage</name>
-	</types>
-	<types>
 		<members>AllowedFields__c</members>
-		<members>FieloPLT__Program__c</members>
 		<members>FieloPLT__ProviderOrder__c</members>
 		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>FieloPLT__Program__c.GRSAccount__c</members>
+		<members>FieloPLT__Program__c.GRSMemberFieldset__c</members>
+		<members>FieloPLT__Program__c.GRSMetadataFieldSet__c</members>
+		<members>FieloPLT__Program__c.GRSOrderFieldset__c</members>
+		<members>FieloPLT__Program__c.GRSOrderItemFieldset__c</members>
+		<members>FieloPLT__Program__c.GRSPointType__c</members>
+		<name>CustomField</name>
 	</types>
 	<types>
 		<members>FieloPLT__RedemptionItem__c.GRSOrderId__c</members>
 		<name>CustomField</name>
 	</types>
-	<version>40.0</version>
+	<version>42.0</version>
 </Package>
