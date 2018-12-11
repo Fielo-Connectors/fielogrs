@@ -71,4 +71,12 @@ public with sharing class LoginServiceTest {
 		LoginService.login(member.Id);
 		Test.stopTest();
 	}
+
+    public static testMethod void testLogException(){
+		try{
+            throw new FieloPLT.FieloException('ERROR!');
+        } catch(Exception e) {
+            StorefrontService.insertError(e);
+        }
+	}
 }
