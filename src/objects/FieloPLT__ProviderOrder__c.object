@@ -131,11 +131,6 @@
         <unique>true</unique>
     </fields>
     <label>Provider Order</label>
-    <listViews>
-        <fullName>All</fullName>
-        <filterScope>Everything</filterScope>
-        <label>All</label>
-    </listViews>
     <nameField>
         <displayFormat>PO-{0000}</displayFormat>
         <label>Provider Order Name</label>

@@ -72,8 +72,8 @@ public class StorefrontService {
 
 				return member;
 			}
-		} catch(System.CalloutException e) {
-			System.debug('Failed: ' + e.getMessage());
+		} catch(Exception e) {
+			insertError(e);
 		}
 		return null;
 	}
@@ -118,8 +118,8 @@ public class StorefrontService {
 				return member;
 			}
 
-		} catch(System.CalloutException e) {
-			System.debug('Failed: ' + e.getMessage());
+		} catch(Exception e) {
+			insertError(e);
 		}
 
 		return null;
@@ -165,8 +165,8 @@ public class StorefrontService {
 				return member;
 			}
 
-		} catch(System.CalloutException e) {
-			System.debug('Failed: ' + e.getMessage());
+		} catch(Exception e) {
+			insertError(e);
 		}
 
 		return null;
@@ -177,5 +177,58 @@ public class StorefrontService {
 		public String token;
 		public String id;
 		public String password;
+	}
+
+	/**
+     * @brief       Metodo para insertar un error en la base
+     * @details     Dado una excepcion de cualquier tipo el metodo genera un nuevo registro de Error Log con todos los datos de la excepcion, 
+     *              la informacion que completa es el numero de linea, mensaje del error, stack trace, el tipo de excepcion y el Id del usuario logueado.
+     * @version     10.0
+     * @param       except    excepcion que se quiere insertar
+     * @return      Void
+     * @code{.java}
+     *      try{
+     *          insert new Account(Name = 'Test Account');
+     *      }catch(Exception e){
+     *          FieloEE.ErrorService.insertError(e);
+     *      }
+     * @endcode
+     */
+	public static void insertError(Exception except){
+        FieloPLT__ErrorLog__c error = new FieloPLT__ErrorLog__c();
+
+        Set<String> fieldNamesInsert = new Set<String>();
+        
+        error.FieloPLT__LineNumber__c = except.getLineNumber();
+        error.FieloPLT__Message__c = except.getMessage();
+        error.FieloPLT__StackTrace__c = except.getStackTraceString();
+        error.FieloPLT__Type__c = except.getTypeName();
+        error.FieloPLT__UserId__c = UserInfo.getUserId();
+        fieldNamesInsert.add('FieloPLT__LineNumber__c');
+        fieldNamesInsert.add('FieloPLT__Message__c');
+        fieldNamesInsert.add('FieloPLT__StackTrace__c');
+        fieldNamesInsert.add('FieloPLT__Type__c');
+        fieldNamesInsert.add('FieloPLT__UserId__c');
+        
+        if(canInsert(FieloPLT__ErrorLog__c.sObjectType, new List<String>(fieldNamesInsert))){
+            insert error;
+        }else{
+            throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_object_not_insertable, new List<String>{'FieloPLT__ErrorLog__c'}));
+        }
+    }
+    
+    public static Boolean canInsert(SObjectType objType, List<String> fieldNames){
+		DescribeSObjectResult objDesc = objType.getDescribe();
+		Map<String,Schema.SObjectField> errorLogFields = Schema.SObjectType.FieloPLT__ErrorLog__c.fields.getMap();
+
+		if( !objDesc.isCreateable() ){
+			return false;
+		}
+		for ( String fieldName : fieldNames ) {
+			if(!errorLogFields.get(fieldName).getDescribe().isCreateable()){
+				return false;
+			}
+		}
+		return true;
 	}
 }
