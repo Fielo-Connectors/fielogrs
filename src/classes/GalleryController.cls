@@ -8,8 +8,8 @@ public class GalleryController {
             result = LoginService.login(currentUser.FieloGRS__MemberId__c) == 'success';
             return result;
         } catch(Exception e) {
-            throw new FieloPLT.FieloException (e);
-        }
+			StorefrontService.insertError(e);
+		}
         return result;
     }
 
