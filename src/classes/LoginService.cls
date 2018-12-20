@@ -2,7 +2,7 @@ global class LoginService {
     private static String adjustmentMemo = 'Balance credit adjustment to match source';
 
 	global static String login(Id memberId) {
-		System.debug('LoginService : login');
+        Id currentMemberId = memberId;
 
 		String query = 'SELECT Id, ' +
             'FieloPLT__Program__r.GRSAccount__c, ' +
@@ -10,8 +10,10 @@ global class LoginService {
             'FieloPLT__Program__r.GRSPointType__r.FieloPLT__MemberBalanceField__c, ' +
             'FieloPLT__Program__r.GRSMemberFieldset__c, ' +
             'FieloPLT__Program__r.GRSMetadataFieldSet__c, ' +
-            'FieloPLT__Type__c ' +
-            'FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1';
+            'FieloPLT__Type__c, ' +
+            'FieloPLT__IsManager__c, ' +
+            'FieloPLT__OrganizationAccount__c ' +
+            'FROM FieloPLT__Member__c WHERE Id =: currentMemberId LIMIT 1';
 
         FieloPLT__Member__c member;
         Id userId = UserInfo.getUserId();
@@ -19,19 +21,24 @@ global class LoginService {
         try{
             member = (FieloPLT__Member__c) Database.query(query);
         } catch (Exception e) {
-            throw new FieloPLT.FieloException (Label.MemberNotFound.replace('{0}',memberId));
+            throw new FieloPLT.FieloException (Label.MemberNotFound.replace('{0}',currentMemberId));
+        }
+
+        if ( member.FieloPLT__Type__c == 'Organization Contributor' && member.FieloPLT__IsManager__c ) {
+            // Retrieve Organization Account Instead
+            currentMemberId = member.FieloPLT__OrganizationAccount__c;
         }
 
         if ( member != null ) {
-            query = 'SELECT RecordId, HasEditAccess FROM UserRecordAccess WHERE UserId = :userId AND RecordId = :memberId';
+            query = 'SELECT RecordId, HasEditAccess FROM UserRecordAccess WHERE UserId = :userId AND RecordId = :currentMemberId';
 
             UserRecordAccess access = (UserRecordAccess) Database.query(query);
 
-            if (member.FieloPLT__Type__c == 'Organization Contributor') {
-                throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',memberId));
+            if (member.FieloPLT__Type__c == 'Organization Contributor' && !member.FieloPLT__IsManager__c) {
+                throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',currentMemberId));
             } else if (member.FieloPLT__Type__c == 'Individual Account' || member.FieloPLT__Type__c == 'Organization Account') {
                 if (!access.HasEditAccess) {
-                    throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',memberId));
+                    throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',currentMemberId));
                 }
             }
 
@@ -58,7 +65,7 @@ global class LoginService {
                 }
             }
 
-            String memberRetrieveQuery = 'SELECT ' + String.join(new List<String>(fieldsetToQuery),',') + ' FROM FieloPLT__Member__c WHERE Id =: memberId LIMIT 1';
+            String memberRetrieveQuery = 'SELECT ' + String.join(new List<String>(fieldsetToQuery),',') + ' FROM FieloPLT__Member__c WHERE Id =: currentMemberId LIMIT 1';
 
             member = Database.query(memberRetrieveQuery);
             
