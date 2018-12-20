@@ -26,12 +26,16 @@ public class Users {
                 contactsIds.add(u.ContactId);
             }
 
-            List<FieloPLT__Member__c> members = [SELECT Id,FieloPLT__Contact__c FROM FieloPLT__Member__c WHERE FieloPLT__Contact__c IN :contactsIds];
+            List<FieloPLT__Member__c> members = [SELECT Id,FieloPLT__Type__c,FieloPLT__OrganizationAccount__c,FieloPLT__Contact__c FROM FieloPLT__Member__c WHERE FieloPLT__Contact__c IN :contactsIds];
 
             Map<Id,Id> memberByContactMap = new Map<Id,Id>();
 
             for(FieloPLT__Member__c m: members){
-                memberByContactMap.put(m.FieloPLT__Contact__c,m.Id);
+                if (m.FieloPLT__Type__c == 'Individual Account' || m.FieloPLT__Type__c == 'Organization Account') {
+                    memberByContactMap.put(m.FieloPLT__Contact__c,m.Id);
+                } else {
+                    memberByContactMap.put(m.FieloPLT__Contact__c,m.FieloPLT__OrganizationAccount__c);
+                }
             }
             List<User> users = new List<User>();
 
