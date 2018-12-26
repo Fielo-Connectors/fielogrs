@@ -88,7 +88,7 @@ public class StorefrontService {
 		req.setHeader('Authorization', this.getAdminAuthHeader());
 		req.setEndpoint(this.domain + '/client/json.php/createSubordinateAccount');
 		req.setTimeout(this.timeout);
-		req.setBody('account=' + EncodingUtil.urlEncode( JSON.serialize(newMember) , 'UTF-8') );
+		req.setBody('account=' + JSON.serialize(newMember) );
 		System.debug(req.getBody());
 
 		try {
@@ -136,7 +136,7 @@ public class StorefrontService {
 		req.setHeader('Authorization', this.getAdminAuthHeader());
 		req.setEndpoint(this.domain + '/client/json.php/updateSubordinateAccount');
 		req.setTimeout(this.timeout);
-		req.setBody('account=' + EncodingUtil.urlEncode( JSON.serialize(member) , 'UTF-8') );
+		req.setBody('account=' + JSON.serialize(member) );
 
 		try {
 
