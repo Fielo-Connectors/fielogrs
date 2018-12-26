@@ -1,6 +1,0 @@
-﻿Create Page Settings FA-316
-#
-# Write a message for tag:
-#   v1.8.3
-# Lines starting with '#' will be ignored.
-
