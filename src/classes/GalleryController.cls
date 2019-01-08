@@ -32,7 +32,7 @@ public class GalleryController {
                     if ( Schema.sObjectType.FieloPLT__Member__c.isAccessible() ) {
                         currentmember = [SELECT Id, FieloPLT__Type__c, FieloPLT__IsManager__c, FieloPLT__OrganizationAccount__c FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1];
                     } else {
-                        throw new FieloPLT.FieloException('There are no permissions to read FieloPLT__Member__c');
+                        throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_object_not_readable, new List<String>{'FieloPLT__Member__c'}));
                     }
                     if ( currentmember.FieloPLT__Type__c == 'Organization Contributor' && currentmember.FieloPLT__IsManager__c ) {
                         // Retrieve Organization Account Instead
@@ -50,7 +50,7 @@ public class GalleryController {
                         if (Schema.sObjectType.User.fields.MemberId__c.isUpdateable()) {
                             currentUser.MemberId__c = userMemberId;
                         } else {
-                            throw new FieloPLT.FieloException('There are no permissions to edit FieloGRS__MemberId__c on User');
+                            throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_field_not_updateable, new List<String>{'User','FieloGRS__MemberId__c'}));
                         }
                         update currentUser;
                         FieloGRS.UserService.enableAdminPermission(false);
