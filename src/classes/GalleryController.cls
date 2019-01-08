@@ -3,18 +3,15 @@ public class GalleryController {
     public static Boolean login(){
         try{
             Boolean result = false;
-            try {
-                Id userId = UserInfo.getUserId();
-                User currentUser = [Select Id, FieloGRS__MemberId__c From User Where Id = :userId LIMIT 1];
-                result = LoginService.login(currentUser.FieloGRS__MemberId__c) == 'success';
-                return result;
-            } catch(Exception e) {
-                StorefrontService.insertError(e);
-            }
+            Id userId = UserInfo.getUserId();
+            User currentUser = [Select Id, FieloGRS__MemberId__c From User Where Id = :userId LIMIT 1];
+            result = LoginService.login(currentUser.FieloGRS__MemberId__c) == 'success';
             return result;
         } catch (DmlException e) {
+            StorefrontService.insertError(e);
             throw new AuraHandledException(e.getDmlMessage(0));
         } catch (Exception e) {
+            StorefrontService.insertError(e);
             throw new AuraHandledException(e.getMessage());
         }
         return null;
@@ -40,6 +37,8 @@ public class GalleryController {
                     if ( currentmember.FieloPLT__Type__c == 'Organization Contributor' && currentmember.FieloPLT__IsManager__c ) {
                         // Retrieve Organization Account Instead
                         userMemberId = member.FieloPLT__OrganizationAccount__c;
+                    } else {
+                        throw new FieloPLT.FieloException('This is a non manager Organization contributor');
                     }
 
                     List<User> users = Database.query('SELECT Id FROM User WHERE Id = :userId AND FieloGRS__MemberId__c = :memberId');
@@ -50,6 +49,8 @@ public class GalleryController {
                         currentUser.Id = userId;
                         if (Schema.sObjectType.User.fields.MemberId__c.isUpdateable()) {
                             currentUser.MemberId__c = userMemberId;
+                        } else {
+                            throw new FieloPLT.FieloException('There are no permissions to edit FieloGRS__MemberId__c on User');
                         }
                         update currentUser;
                         FieloGRS.UserService.enableAdminPermission(false);
@@ -58,8 +59,10 @@ public class GalleryController {
             }
             return member;
         } catch (DmlException e) {
+            StorefrontService.insertError(e);
             throw new AuraHandledException(e.getDmlMessage(0));
         } catch (Exception e) {
+            StorefrontService.insertError(e);
             throw new AuraHandledException(e.getMessage());
         }
         return null;
