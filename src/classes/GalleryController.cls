@@ -30,7 +30,21 @@ public class GalleryController {
                     FieloPLT__Member__c currentmember;
 
                     if ( Schema.sObjectType.FieloPLT__Member__c.isAccessible() ) {
+                        if ( !Schema.sObjectType.FieloPLT__Member__c.fields.FieloPLT__Type__c.isAccessible() )
+                            throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_field_not_readable, new List<String>{'FieloPLT__Member__c','FieloPLT__Type__c'}));
+
+                        if ( !Schema.sObjectType.FieloPLT__Member__c.fields.FieloPLT__IsManager__c.isAccessible() )
+                            throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_field_not_readable, new List<String>{'FieloPLT__Member__c','FieloPLT__IsManager__c'}));
+                        
+                        if ( !Schema.sObjectType.FieloPLT__Member__c.fields.FieloPLT__OrganizationAccount__c.isAccessible() )
+                            throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_field_not_readable, new List<String>{'FieloPLT__Member__c','FieloPLT__OrganizationAccount__c'}));
+
                         currentmember = [SELECT Id, FieloPLT__Type__c, FieloPLT__IsManager__c, FieloPLT__OrganizationAccount__c FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1];
+
+                        UserRecordAccess access = (UserRecordAccess) Database.query('SELECT RecordId, HasEditAccess FROM UserRecordAccess WHERE UserId = :userId AND RecordId = :currentMemberId');
+
+                        if (!access.HasEditAccess)
+                            throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',currentmember.Id));
                     } else {
                         throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_object_not_readable, new List<String>{'FieloPLT__Member__c'}));
                     }
@@ -41,9 +55,9 @@ public class GalleryController {
                         throw new FieloPLT.FieloException('This is a non manager Organization contributor');
                     }
 
-                    List<User> users = Database.query('SELECT Id FROM User WHERE Id = :userId AND FieloGRS__MemberId__c = :memberId');
+                    List<User> users = Database.query('SELECT Id, FieloGRS__MemberId__c FROM User WHERE Id = :userId');
             
-                    if (users.isEmpty()) {
+                    if ( !users.isEmpty() && (Id)users[0].FieloGRS__MemberId__c != userMemberId) {
                         FieloGRS.UserService.enableAdminPermission(true);
                         User currentUser = new User();
                         currentUser.Id = userId;
