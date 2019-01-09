@@ -99,11 +99,8 @@ public class GalleryControllerTest {
 
 	public static testMethod void testSetCurrentMember() {
 		Test.startTest();
-        try{
-        	FieloPLT__Member__c member = GalleryController.setCurrentMember((FieloPLT__Member__c)[SELECT Id, Name FROM FieloPLT__Member__c LIMIT 1]);    
-        } catch(Exception e) {
-            System.debug(e);
-        }
+        
+        FieloPLT__Member__c member = GalleryController.setCurrentMember((FieloPLT__Member__c)[SELECT Id, Name FROM FieloPLT__Member__c LIMIT 1]);    
 		
 		Test.stopTest();
 	}
