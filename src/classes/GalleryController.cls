@@ -50,7 +50,7 @@ public class GalleryController {
                     
                     if (currentmember.FieloPLT__Type__c == 'Organization Contributor' && currentmember.FieloPLT__IsManager__c ) {
                         // Retrieve Organization Account Instead
-                        userMemberId = member.FieloPLT__OrganizationAccount__c;
+                        userMemberId = currentmember.FieloPLT__OrganizationAccount__c;
                     }
 
                     List<User> users = Database.query('SELECT Id, FieloGRS__MemberId__c FROM User WHERE Id = :userId');
