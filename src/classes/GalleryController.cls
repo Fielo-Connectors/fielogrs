@@ -44,12 +44,6 @@ public class GalleryController {
 
                     currentmember = [SELECT Id, FieloPLT__Type__c, FieloPLT__IsManager__c, FieloPLT__OrganizationAccount__c FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1];
 
-                    // Sharring Check
-                    UserRecordAccess access = (UserRecordAccess) Database.query('SELECT RecordId, HasEditAccess FROM UserRecordAccess WHERE UserId = :userId AND RecordId = :currentMemberId');
-
-                    if (!access.HasEditAccess)
-                        throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',currentmember.Id));
-
                     if ( currentmember.FieloPLT__Type__c == 'Organization Contributor' && currentmember.FieloPLT__IsManager__c ) {
                         // Retrieve Organization Account Instead
                         userMemberId = member.FieloPLT__OrganizationAccount__c;
