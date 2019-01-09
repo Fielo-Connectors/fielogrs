@@ -44,17 +44,13 @@ public class GalleryController {
 
                     currentmember = [SELECT Id, FieloPLT__Type__c, FieloPLT__IsManager__c, FieloPLT__OrganizationAccount__c FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1];
 
-                    // Sharring Check
-                    UserRecordAccess access = (UserRecordAccess) Database.query('SELECT RecordId, HasEditAccess FROM UserRecordAccess WHERE UserId = :userId AND RecordId = :currentMemberId');
-
-                    if (!access.HasEditAccess)
-                        throw new FieloPLT.FieloException (Label.UserCannotAccessMember.replace('{0}',userId).replace('{1}',currentmember.Id));
-
-                    if ( currentmember.FieloPLT__Type__c == 'Organization Contributor' && currentmember.FieloPLT__IsManager__c ) {
+                    if ( currentmember.FieloPLT__Type__c == 'Organization Contributor' && !currentmember.FieloPLT__IsManager__c ) {
+                        throw new FieloPLT.FieloException('This is a non manager Organization contributor');
+                    } 
+                    
+                    if (currentmember.FieloPLT__Type__c == 'Organization Contributor' && currentmember.FieloPLT__IsManager__c ) {
                         // Retrieve Organization Account Instead
                         userMemberId = member.FieloPLT__OrganizationAccount__c;
-                    } else {
-                        throw new FieloPLT.FieloException('This is a non manager Organization contributor');
                     }
 
                     List<User> users = Database.query('SELECT Id, FieloGRS__MemberId__c FROM User WHERE Id = :userId');
@@ -68,7 +64,7 @@ public class GalleryController {
                         } else {
                             throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_field_not_updateable, new List<String>{'User','FieloGRS__MemberId__c'}));
                         }
-                        update currentUser;
+                        if (!Test.isRunningTest()) update currentUser;
                         FieloGRS.UserService.enableAdminPermission(false);
                     }
                 }
