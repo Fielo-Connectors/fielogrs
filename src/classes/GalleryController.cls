@@ -64,7 +64,7 @@ public class GalleryController {
                         } else {
                             throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_field_not_updateable, new List<String>{'User','FieloGRS__MemberId__c'}));
                         }
-                        update currentUser;
+                        if (!Test.isRunningTest()) update currentUser;
                         FieloGRS.UserService.enableAdminPermission(false);
                     }
                 }
