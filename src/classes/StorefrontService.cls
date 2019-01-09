@@ -71,6 +71,8 @@ public class StorefrontService {
 				System.debug(member);
 
 				return member;
+			} else {
+				throw new FieloPLT.FieloException('Status Code ' + res.getStatusCode() + ', Status: ' + res.getStatus());
 			}
 		} catch(Exception e) {
 			insertError(e);
@@ -116,6 +118,8 @@ public class StorefrontService {
 				}
 
 				return member;
+			} else {
+				throw new FieloPLT.FieloException('Status Code ' + res.getStatusCode() + ', Status: ' + res.getStatus());
 			}
 
 		} catch(Exception e) {
@@ -163,6 +167,8 @@ public class StorefrontService {
 				}
 				
 				return member;
+			} else {
+				throw new FieloPLT.FieloException('Status Code ' + res.getStatusCode() + ', Status: ' + res.getStatus());
 			}
 
 		} catch(Exception e) {
