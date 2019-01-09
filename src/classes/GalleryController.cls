@@ -44,11 +44,13 @@ public class GalleryController {
 
                     currentmember = [SELECT Id, FieloPLT__Type__c, FieloPLT__IsManager__c, FieloPLT__OrganizationAccount__c FROM FieloPLT__Member__c WHERE Id = :memberId LIMIT 1];
 
-                    if ( currentmember.FieloPLT__Type__c == 'Organization Contributor' && currentmember.FieloPLT__IsManager__c ) {
+                    if ( currentmember.FieloPLT__Type__c == 'Organization Contributor' && !currentmember.FieloPLT__IsManager__c ) {
+                        throw new FieloPLT.FieloException('This is a non manager Organization contributor');
+                    } 
+                    
+                    if (currentmember.FieloPLT__Type__c == 'Organization Contributor' && currentmember.FieloPLT__IsManager__c ) {
                         // Retrieve Organization Account Instead
                         userMemberId = member.FieloPLT__OrganizationAccount__c;
-                    } else {
-                        throw new FieloPLT.FieloException('This is a non manager Organization contributor');
                     }
 
                     List<User> users = Database.query('SELECT Id, FieloGRS__MemberId__c FROM User WHERE Id = :userId');
