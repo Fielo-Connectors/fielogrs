@@ -32,6 +32,7 @@ public class GalleryController {
                     // CRUD / FLS Check
                     if ( !Schema.sObjectType.FieloPLT__Member__c.isAccessible() )
                         throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_object_not_readable, new List<String>{'FieloPLT__Member__c'}));
+
                     if ( !Schema.sObjectType.FieloPLT__Member__c.fields.FieloPLT__Type__c.isAccessible() )
                         throw new FieloPLT.FieloException(String.format(Label.fieloplt.security_error_field_not_readable, new List<String>{'FieloPLT__Member__c','FieloPLT__Type__c'}));
 
