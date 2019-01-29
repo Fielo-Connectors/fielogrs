@@ -4,9 +4,9 @@
 	"name":"FieloGRS",
 	"dependencies":[
 		{
-			"type":"package",
-			"version":"2.56.15",
-			"name":"FieloPLT"
+			"type":"linkRepository",
+			"version":"master",
+			"name":"FieloIncentiveAutomation/fielodeploy"
 		}
 	]
 }
